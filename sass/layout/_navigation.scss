@@ -1,0 +1,21 @@
+
+.navigation {
+  height: $navbar-hight;
+  display: flex;
+  &__logo {
+    width: 25%;
+  }
+  &__menu {
+    align-items: center;
+    width: 80%;
+  }
+  &--standard {
+    background-color: $color-background-primary;
+  }
+  &--dark {
+    background-color: $color-dark;
+  }
+  &--bright {
+    background-color: $color-bright;
+  }
+}

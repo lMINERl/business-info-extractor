@@ -1,0 +1,36 @@
+.input {
+  @include font-small;
+
+  &--invalid {
+    box-shadow: 0 0 1.5px 1px red;
+  }
+  
+  &__text {
+    border: none;
+    box-shadow: none;
+  }
+  &__container {
+    display: inline-flex;
+    border-radius: $border-radius;
+    position: relative;
+    align-items: center;
+    padding: 0.7rem 1.3rem 0.7rem 1.3rem;
+  }
+  &__icon {
+    margin-right: 1rem;
+  }
+  &--xmsall {
+    @include font-xsmall;
+  }
+  &--meduim {
+    @include font-meduim;
+  }
+  &--dark {
+    color: $color-bright;
+    background-color: $color-dark;
+  }
+  &--bright {
+    color: $color-dark;
+    background-color: $color-bright;
+  }
+}

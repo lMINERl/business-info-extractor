@@ -1,0 +1,32 @@
+$color-background-primary: #8b5c7e;
+$color-background-secondary: rgb(240, 188, 180);
+
+$color-menu-sub: #64495d;
+$color-menu: darken($color-menu-sub, 10%);
+
+$color-table-sub: #eef9f0;
+$color-table: darken($color-table-sub, 10%);
+$color-table-line: #dee2e6;
+
+$color-lable-success-sub: #5cb85c;
+$color-lable-success: darken($color-lable-success-sub, 10%);
+
+$color-lable-danger-sub: #d9534f;
+$color-lable-danger: darken($color-lable-danger-sub, 10%);
+
+$color-bright-sub: #fcfcfc;
+$color-bright: darken($color-bright-sub, 10%);
+
+$color-dark-sub: #3d3d3d;
+$color-dark: darken($color-dark-sub, 10%);
+
+$color-orange-sub: #53d769;
+$color-orange: darken($color-orange-sub, 10%);
+
+$color-gray: rgba(0, 0, 0, 0.125);
+
+// navigation
+$navbar-hight: 8rem;
+
+// 
+$border-radius:8px;

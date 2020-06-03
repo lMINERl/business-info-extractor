@@ -1,0 +1,94 @@
+.profile {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  border-radius: 25px;
+  position: relative;
+  width: 14rem;
+  height: 3rem;
+  @include font-small;
+
+  &--xsmall {
+    @include font-xsmall;
+  }
+  &--meduim {
+    @include font-meduim;
+  }
+
+  &--dark {
+    color: $color-bright;
+    background-color: $color-dark;
+  }
+  &--bright {
+    color: $color-dark;
+    background-color: $color-bright;
+  }
+  &:hover &__dropdown {
+    max-height: 100vh;
+    margin-top: 1rem;
+  }
+  &:hover &__dropdown__row {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  &__img {
+    border-radius: 50%;
+    &__container {
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+    }
+    &--dark {
+      background-color: $color-dark;
+    }
+    &--bright {
+      background-color: $color-bright;
+    }
+  }
+  &__text {
+    padding-left: 1rem;
+  }
+  &__dropdown {
+    transition: all 0.23s linear;
+    max-height: 0vh;
+    width: 10rem;
+    position: absolute;
+    top: 67%;
+    left: 19%;
+    border-radius: 0rem 0rem 0.5rem 0.5rem;
+    z-index: 2;
+    &__row {
+      margin: 1rem 1rem 1rem 1rem;
+      border-radius: $border-radius;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      opacity: 0;
+      visibility: hidden;
+      transition: visibility 0s, opacity 0.2s linear;
+      @include font-xsmall;
+      &--dark {
+        color:$color-bright;
+        background-color: $color-dark;
+        &:hover {
+          background-color: $color-dark-sub;
+        }
+      }
+      &--bright {
+        color:$color-dark;
+        background-color: $color-bright;
+        &:hover {
+          background-color: $color-bright-sub;
+        }
+      }
+    }
+    &--dark {
+      background-color: $color-dark;
+    }
+    &--bright {
+      background-color: $color-bright;
+    }
+  }
+}

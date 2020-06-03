@@ -1,0 +1,71 @@
+.data-table {
+  color: rgb(153, 153, 153);
+  &__container {
+    text-align: center;
+    display: inline-flex;
+    justify-content: center;
+    border-radius: $border-radius;
+    &--standard {
+      background-color: $color-table-sub;
+    }
+    &--dark {
+      background-color: $color-dark;
+    }
+    &--bright {
+      background-color: $color-bright;
+    }
+  }
+  &__row {
+    text-align: start;
+    border-bottom: 1px solid $color-table-line;
+    @include font-small;
+    &__td {
+      padding: 2rem 5rem 1.5rem 4rem;
+    }
+    &--standard {
+      color: $color-dark;
+      &:hover {
+        background-color: $color-table;
+      }
+    }
+    &--dark {
+      color: $color-bright;
+      &:hover {
+        background-color: $color-dark-sub;
+      }
+    }
+    &--bright {
+      color: $color-dark;
+      border-bottom: 1px solid $color-dark;
+      &:hover {
+        background-color: $color-bright-sub;
+      }
+    }
+  }
+  &__head {
+    text-align: start;
+    border-bottom: 2px solid $color-table-line;
+    &__th {
+      padding: 0rem 5rem 0.5rem 4rem;
+    }
+    &--standard {
+      @extend .data-table__row--standard;
+      &:hover {
+        background-color: transparent;
+      }
+    }
+    &--dark {
+      @extend .data-table__row--dark;
+      &:hover {
+        background-color: transparent;
+      }
+    }
+    &--bright {
+      border-bottom: 2px solid $color-dark;
+      @extend .data-table__row--bright;
+      &:hover {
+        background-color: transparent;
+      }
+    }
+  }
+}

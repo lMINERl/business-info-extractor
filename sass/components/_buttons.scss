@@ -1,0 +1,87 @@
+.button {
+  @include font-small;
+  @include unselectable;
+  cursor: pointer;
+
+  display: inline-block;
+  position: relative;
+  text-align: center;
+  height: min-content;
+  &--dark {
+    background: $color-dark;
+    color: $color-bright;
+    &:hover {
+      background: $color-dark-sub;
+    }
+  }
+  &--bright {
+    background: $color-bright;
+    color: $color-dark;
+    &:hover {
+      background: $color-bright-sub;
+    }
+  }
+  &--orange {
+    background: $color-orange;
+    color: $color-dark;
+    &:hover {
+      background: $color-orange-sub;
+    }
+  }
+  &--rounded {
+    @include make-square(0.6rem);
+    // padding: 0.6rem;
+    border-radius: 50%;
+    &--xsmall {
+      @include make-square(0.4rem);
+    }
+    &--meduim {
+      @include make-square(0.9rem);
+    }
+  }
+
+  &--squared {
+    // @include padding-small;
+    @include make-square(0.6rem);
+    border-radius: $border-radius;
+    &--xsmall {
+      // @include padding-xsmall;
+      @include make-square(0.4rem);
+    }
+    &--meduim {
+      // @include padding-meduim;
+      @include make-square(0.9rem);
+    }
+  }
+  &--rectangled {
+    @include padding-rectangle-small;
+    border-radius: $border-radius;
+    &--xsmall {
+      @include padding-rectangle-xsmall;
+    }
+    &--meduim {
+      @include padding-rectangle-meduim;
+    }
+  }
+  &--xsmall {
+    @include font-xsmall;
+  }
+  &--meduim {
+    @include font-meduim;
+  }
+  &__text {
+    width: 100%;
+  }
+  &__notify {
+    @include font-xsmall;
+    color: $color-bright;
+    position: absolute;
+    padding: 0.1rem 0.5rem 0.1rem 0.5rem;
+    border-radius: $border-radius;
+    text-align: center;
+    background-color: gray;
+    bottom: 76%;
+    left: 76%;
+    z-index: 1;
+  }
+}

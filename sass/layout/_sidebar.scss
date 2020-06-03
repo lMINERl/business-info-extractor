@@ -1,0 +1,29 @@
+.sidebar {
+  cursor: pointer;
+  &__text {
+    margin-left: 1rem;
+  }
+  &__row {
+    @include font-xsmall;
+    padding: 2rem;
+    display: flex;
+
+    &--extend {
+      margin-left: auto;
+    }
+    &--dark {
+      color: $color-bright;
+      background-color: $color-menu;
+      &:hover {
+        background-color: $color-menu-sub;
+      }
+    }
+    &--bright {
+      color: $color-dark;
+      background-color: $color-bright;
+      &:hover {
+        background-color: $color-bright-sub;
+      }
+    }
+  }
+}

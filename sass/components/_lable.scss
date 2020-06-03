@@ -1,0 +1,22 @@
+.lable {
+  border: 1px solid black;
+  border-radius: $border-radius;
+  padding: 0.4rem;
+  text-align: center;
+  border: none;
+  @include font-xsmall;
+  &--danger {
+    color: $color-bright;
+    background-color: $color-lable-danger-sub;
+    &:hover {
+      background-color: $color-lable-danger;
+    }
+  }
+  &--success {
+    color: $color-dark;
+    background-color: $color-lable-success-sub;
+    &:hover {
+      background-color: $color-lable-success;
+    }
+  }
+}

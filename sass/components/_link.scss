@@ -1,0 +1,51 @@
+.history {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  border-radius: $border-radius;
+  &__link {
+    width: 9rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-align: start;
+    text-overflow: ellipsis;
+    @include padding-small;
+
+    &::before {
+      content: ('');
+      display: inline-block;
+    }
+    &--dark {
+      background-color: $color-dark;
+      color: $color-bright;
+      &:hover {
+        color: $color-bright-sub;
+        background-color: $color-dark-sub;
+      }
+
+      &::before {
+        border: 5px solid $color-bright;
+        border-color: transparent transparent transparent $color-bright;
+      }
+      &:focus {
+        @extend .history__link--bright;
+      }
+    }
+    &--bright {
+      background-color: $color-bright;
+      color: $color-dark;
+      &:hover {
+        color: $color-dark-sub;
+        background-color: $color-bright-sub;
+      }
+      &::before {
+        border: 5px solid $color-dark;
+        border-color: transparent transparent transparent $color-dark;
+      }
+      &:focus {
+        @extend .history__link--dark;
+      }
+    }
+  }
+}
