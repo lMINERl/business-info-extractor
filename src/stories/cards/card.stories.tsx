@@ -30,11 +30,11 @@ storiesOf('Card', module)
         settings: { handleSettings: () => console.log('Settings Clicked') },
         favourate: { handleFavourate: () => console.log('Favourate Clicked') },
         share: { handleShare: () => console.log('Share Clicked') },
-        AvatarChar: 'R',
-        image: {
-          title: 'Paella dish',
-          path: ''
-        }
+        AvatarChar: 'R'
+        // image: {
+        //   title: 'Paella dish',
+        //   path: ''
+        // }
       },
       {
         header: {
