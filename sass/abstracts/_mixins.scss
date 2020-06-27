@@ -51,6 +51,12 @@
 @mixin make-square($value) {
   // from rem to percent
   // $value: $value * 1.16;
-  padding: $value * 1.61 ;
+  padding: $value * 1.61;
   // height: $value;
+}
+
+@mixin user-select($value) {
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
 }
