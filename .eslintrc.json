@@ -15,7 +15,7 @@
   },
   "extends": ["prettier/@typescript-eslint", "plugin:prettier/recommended"],
   "rules": {
-    "no-console": "warn",
+    "no-console": "off",
     "no-alert": "warn",
     "no-debugger": "warn"
   }
