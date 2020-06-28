@@ -153,10 +153,12 @@ export const CardComplex = (variant: CardVariant, cardShape: CardShape, cardCont
           {cardContent.description}
         </Typography>
       </CardContent>
-      {/* <CardActions></CardActions> */}
-      {CardFavourate}
-      {CardShare}
-      {CardPannel}
+      <CardActions>
+        {CardFavourate}
+        {CardShare}
+        {CardPannel ? CardPannel.Icon : null}
+      </CardActions>
+      {CardPannel ? CardPannel.Pannel : null}
     </Card>
   );
 };
