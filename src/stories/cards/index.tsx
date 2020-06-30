@@ -13,6 +13,7 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { PannelDefault } from '../pannel';
+import { CheckboxAddFavorite } from '../checkbox';
 
 const cardComplexStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -103,7 +104,9 @@ export interface CardShape {
   };
   pannel?: { component: JSX.Element };
   share?: { handleShare: (event?: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void };
-  favourate?: { handleFavourate: (event?: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void };
+  favourate?: {
+    handleFavourate: (event: { target: { name: string; value: any } }) => void;
+  };
 }
 export interface CardContent {
   header: {
@@ -130,11 +133,11 @@ export const CardComplex = (variant: CardVariant, cardShape: CardShape, cardCont
 
   const CardImage = cardShape.image ? <CardMedia className={classes.media} image={cardShape.image.path} title={cardShape.image.title} /> : null;
 
-  const CardFavourate = cardShape.favourate ? (
-    <IconButton aria-label="add to favorites" onClick={cardShape.favourate.handleFavourate}>
-      <FavoriteIcon />
-    </IconButton>
-  ) : null;
+  const CardFavourate = cardShape.favourate
+    ? // <IconButton aria-label="add to favorites">
+      CheckboxAddFavorite(cardShape.favourate.handleFavourate, 'add Fav')
+    : // {/* </IconButton> */}
+      null;
 
   const CardShare = cardShape.share ? (
     <IconButton aria-label="share" onClick={cardShape.share.handleShare}>

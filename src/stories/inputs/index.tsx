@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent } from 'react';
+import React, { useState, ChangeEvent, useMemo } from 'react';
 import MaskedInput from 'react-text-mask';
 import { Input, InputAdornment, IconButton, InputLabel, FilledInput, OutlinedInput } from '@material-ui/core';
 import { Visibility, VisibilityOff } from '@material-ui/icons';
@@ -12,6 +12,7 @@ export enum InputVariant {
 interface TextMaskCustomProps {
   inputRef: (ref: HTMLInputElement | null) => void;
 }
+
 const getInputType = (variant: InputVariant) => {
   switch (variant) {
     case InputVariant.fill:
@@ -38,8 +39,10 @@ const TelephoneMaskCustom = (props: TextMaskCustomProps) => {
   );
 };
 
-export const InputPassword = (variant: InputVariant, changeHandle: (event: ChangeEvent<HTMLInputElement>) => void, key: string) => {
+export const InputPassword = (variant: InputVariant, changeHandle: (event: ChangeEvent<HTMLInputElement>) => void, keyId: string) => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
+
+  // const label = useMemo(() => , [keyId]);
 
   const handleClickShowPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
     setShowPassword(!showPassword);
@@ -49,16 +52,17 @@ export const InputPassword = (variant: InputVariant, changeHandle: (event: Chang
   };
 
   let InputVariant = getInputType(variant);
+
   return (
     <div>
-      <InputLabel htmlFor={key}>Password</InputLabel>
+      <InputLabel htmlFor={keyId}>Password</InputLabel>
       <InputVariant
         type={showPassword ? 'text' : 'password'}
         onChange={changeHandle}
         required={true}
-        name={key}
+        name={keyId}
         defaultValue=""
-        id={key}
+        id={keyId}
         endAdornment={
           <InputAdornment position="end">
             <IconButton aria-label="toggle password visibility" onClick={handleClickShowPassword} onMouseDown={handleMouseDownPassword}>
@@ -74,18 +78,18 @@ export const InputPassword = (variant: InputVariant, changeHandle: (event: Chang
 export const InputTelephoneNumber = (
   variant: InputVariant,
   changeHandle: (event: ChangeEvent<HTMLInputElement>) => void,
-  key: string
+  keyId: string
 ): JSX.Element => {
   let InputVariant = getInputType(variant);
   return (
     <div>
-      <InputLabel htmlFor={key}>Telephone</InputLabel>
+      <InputLabel htmlFor={keyId}>Telephone</InputLabel>
       <InputVariant
         type="text"
         // value={value}
         onChange={changeHandle}
-        name={key}
-        id={key}
+        name={keyId}
+        id={keyId}
         inputComponent={TelephoneMaskCustom as any}
       />
     </div>
@@ -98,13 +102,15 @@ export const InputText = (
   isError: boolean,
   isRequired: boolean,
   changeHandle: (event: ChangeEvent<HTMLInputElement>) => void,
-  key: string
+  keyId: string
 ) => {
   let InputVariant = getInputType(variant);
   return (
     <div>
-      <InputLabel htmlFor={key}>{labelText}</InputLabel>
-      <InputVariant error={isError} required={isRequired} type="text" onChange={changeHandle} name={key} id={key} />
+      <InputLabel htmlFor={keyId}>{labelText}</InputLabel>
+      <InputVariant error={isError} required={isRequired} type="text" onChange={changeHandle} name={keyId} id={keyId} />
     </div>
   );
 };
+
+export default { InputText, InputTelephoneNumber, InputVariant, InputPassword };

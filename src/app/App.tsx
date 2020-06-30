@@ -1,28 +1,52 @@
-import React, { useState, ChangeEvent } from 'react';
+import React, { useState, ChangeEvent, useCallback } from 'react';
 import logo from '../assets/logo.svg';
 import './App.css';
 
 import { Button } from '@material-ui/core';
 
 import { InputTelephoneNumber, InputVariant, InputPassword, InputText } from '../stories/inputs';
+import { CheckboxDefault } from '../stories/checkbox';
+// import { useSelector, useDispatch } from 'react-redux';
+// import { RootState } from '../store';
+// import { CheckboxDefault } from '../stories/checkbox';
+// import { getAllData } from '../store/actions/DataActions';
 
-import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '../store';
-import { getAllData } from '../store/actions/DataActions';
 const App: React.FC = () => {
   const [formState, setFromState] = useState<{ [key: string]: any }>({});
-  const changeHandle = (event: ChangeEvent<HTMLInputElement>) => setFromState({ ...formState, [event.target.id]: event.target.value });
+  // const [formState, setFromState] = useState<();
 
-  const reducers = useSelector((state: RootState) => state.data);
-  const dispatch = useDispatch();
+  // all render Update Issue
 
-  React.useEffect(() => {
-    // dispatch(getAllData);
-  }, []);
+  const changeHandle =
+    // useCallback(
+    //   () =>
+    (event: ChangeEvent<HTMLInputElement>) => {
+      setFromState({ ...formState, [event.target.id]: event.target.value });
+    };
+  //   [formState]
+  // );
+
+  const telephoneNumber = InputTelephoneNumber(InputVariant.standard, changeHandle, 'textMask');
+
+  const password = InputPassword(InputVariant.outlined, changeHandle, 'password');
+
+  const anytext = InputText(InputVariant.standard, 'AnyText', false, true, changeHandle, 'textinput');
+
+  const termsOfService = CheckboxDefault(changeHandle, { keyId: 'chkbx1', label: 'Agree on terms of services' });
+  const privacy = CheckboxDefault(changeHandle, { keyId: 'chkbx2', label: 'Agree on Privacy and Policy' });
+  const userAgreement = CheckboxDefault(changeHandle, { keyId: 'chkbx3', label: 'Agree on User Agreement' });
+
+  // const reducers = useSelector((state: RootState) => state.data);
+  // const dispatch = useDispatch();
+
+  // React.useEffect(() => {
+  //   // dispatch(getAllData);
+  // }, []);
 
   const handleSubmit = (event: React.FormEvent<HTMLButtonElement>) => {
     event.preventDefault();
     // console.log(reducers.filteredList);
+    console.log(formState);
   };
 
   return (
@@ -37,11 +61,15 @@ const App: React.FC = () => {
         </a>
       </header>
       <div className="App">
-        {InputTelephoneNumber(InputVariant.standard, changeHandle, 'textMast1')}
-        {InputTelephoneNumber(InputVariant.standard, changeHandle, 'textMask2')}
-        {InputPassword(InputVariant.outlined, changeHandle, 'password')}
+        {telephoneNumber}
+        {password}
         <br />
-        {InputText(InputVariant.standard, 'AnyText', false, true, changeHandle, 'textinput')}
+        <div style={{ display: 'inline-flex', flexDirection: 'column' }}>
+          {termsOfService}
+          {privacy}
+          {userAgreement}
+        </div>
+        {anytext}
         <Button variant="outlined" onClick={handleSubmit}>
           submit
         </Button>

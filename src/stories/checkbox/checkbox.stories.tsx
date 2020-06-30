@@ -3,7 +3,6 @@ import React from 'react';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { storiesOf } from '@storybook/react';
 import { CheckboxDefault, CheckboxAddFavorite } from '.';
-import { Favorite, FavoriteBorder } from '@material-ui/icons';
 
 storiesOf('Checkbox', module)
   .addDecorator((story) => (
@@ -15,19 +14,19 @@ storiesOf('Checkbox', module)
   ))
   .add('CheckboxDefault', () =>
     CheckboxDefault(
-      (event: React.ChangeEvent<HTMLInputElement>, checked: boolean) => {
-        console.log({ [event.target.name]: checked });
+      (event: { target: { name: string; value: any } }) => {
+        console.log({ [event.target.name]: event.target.value });
       },
-      'key1',
-      'Agree on Privacy and Policy',
+      { keyId: 'key1', label: 'Agree on Privacy and Policy' },
       {
-        unChecked: <FavoriteBorder />,
-        checked: <Favorite />
+        iconValues: {
+          checkIconValue: 'checked',
+          unCheckedIconValue: 'unchecked',
+          intermidateIconValue: 'intermidate'
+        }
       }
     )
   )
   .add('CheckBoxAddFavorite', () =>
-    CheckboxAddFavorite((event: React.ChangeEvent<HTMLInputElement>, checked: boolean) => {
-      console.log({ [event.target.name]: checked });
-    }, 'key2')
+    CheckboxAddFavorite((event: React.ChangeEvent<HTMLInputElement>) => console.log({ [event.target.name]: event.target.value }), 'key2')
   );

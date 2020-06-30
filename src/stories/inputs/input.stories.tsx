@@ -14,11 +14,11 @@ storiesOf('Input', module)
     </ThemeProvider>
   ))
   .add('InputTelephoneNumber', () =>
-    InputTelephoneNumber(InputVariant.standard, (event: ChangeEvent<HTMLInputElement>) => useState(event.target.value), 'telephoneNumber')
+    InputTelephoneNumber(InputVariant.standard, (event: ChangeEvent<HTMLInputElement>) => console.log(event.target.value), 'telephoneNumber')
   )
-  .add('InputPassword', () =>
-    InputPassword(InputVariant.standard, (event: ChangeEvent<HTMLInputElement>) => useState(event.target.value), 'password')
-  )
+  .add('InputPassword', () => {
+    return InputPassword(InputVariant.standard, (event: ChangeEvent<HTMLInputElement>) => console.log(event.target.value), 'password');
+  })
   .add('InputText', () =>
     InputText(
       InputVariant.standard,
