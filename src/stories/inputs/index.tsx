@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, useMemo } from 'react';
+import React, { useState } from 'react';
 import MaskedInput from 'react-text-mask';
 import { Input, InputAdornment, IconButton, InputLabel, FilledInput, OutlinedInput } from '@material-ui/core';
 import { Visibility, VisibilityOff } from '@material-ui/icons';
@@ -13,7 +13,7 @@ interface TextMaskCustomProps {
   inputRef: (ref: HTMLInputElement | null) => void;
 }
 
-const getInputType = (variant: InputVariant) => {
+const getInputType = (variant: InputVariant | undefined) => {
   switch (variant) {
     case InputVariant.fill:
       return FilledInput;
@@ -39,7 +39,14 @@ const TelephoneMaskCustom = (props: TextMaskCustomProps) => {
   );
 };
 
-export const InputPassword = (variant: InputVariant, changeHandle: (event: ChangeEvent<HTMLInputElement>) => void, keyId: string) => {
+export const InputPassword = (props: {
+  variant?: InputVariant;
+  changeHandle: any;
+  content: {
+    keyId: string;
+    defaultValue?: string;
+  };
+}) => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
   // const label = useMemo(() => , [keyId]);
@@ -51,18 +58,18 @@ export const InputPassword = (variant: InputVariant, changeHandle: (event: Chang
     event.preventDefault();
   };
 
-  let InputVariant = getInputType(variant);
+  let InputVariant = getInputType(props.variant);
 
   return (
     <div>
-      <InputLabel htmlFor={keyId}>Password</InputLabel>
+      <InputLabel htmlFor={props.content.keyId}>Password</InputLabel>
       <InputVariant
         type={showPassword ? 'text' : 'password'}
-        onChange={changeHandle}
+        onChange={(e) => props.changeHandle({ target: { name: props.content.keyId, id: props.content.keyId, value: e.target.value } } as any)}
         required={true}
-        name={keyId}
-        defaultValue=""
-        id={keyId}
+        name={props.content.keyId}
+        defaultValue={props.content.defaultValue}
+        id={props.content.keyId}
         endAdornment={
           <InputAdornment position="end">
             <IconButton aria-label="toggle password visibility" onClick={handleClickShowPassword} onMouseDown={handleMouseDownPassword}>
@@ -75,40 +82,54 @@ export const InputPassword = (variant: InputVariant, changeHandle: (event: Chang
   );
 };
 
-export const InputTelephoneNumber = (
-  variant: InputVariant,
-  changeHandle: (event: ChangeEvent<HTMLInputElement>) => void,
-  keyId: string
-): JSX.Element => {
-  let InputVariant = getInputType(variant);
+export const InputTelephoneNumber = (props: {
+  variant?: InputVariant;
+  changeHandle: any;
+  content: {
+    keyId: string;
+    defaultValue?: string;
+  };
+}): JSX.Element => {
+  let InputVariant = getInputType(props.variant);
   return (
     <div>
-      <InputLabel htmlFor={keyId}>Telephone</InputLabel>
+      <InputLabel htmlFor={props.content.keyId}>Telephone</InputLabel>
       <InputVariant
         type="text"
-        // value={value}
-        onChange={changeHandle}
-        name={keyId}
-        id={keyId}
+        defaultValue={props.content.defaultValue}
+        onChange={(e) => props.changeHandle({ target: { name: props.content.keyId, id: props.content.keyId, value: e.target.value } } as any)}
+        name={props.content.keyId}
+        id={props.content.keyId}
         inputComponent={TelephoneMaskCustom as any}
       />
     </div>
   );
 };
 
-export const InputText = (
-  variant: InputVariant,
-  labelText: string,
-  isError: boolean,
-  isRequired: boolean,
-  changeHandle: (event: ChangeEvent<HTMLInputElement>) => void,
-  keyId: string
-) => {
-  let InputVariant = getInputType(variant);
+export const InputText = (props: {
+  variant?: InputVariant;
+  isError?: boolean;
+  isRequired?: boolean;
+  changeHandle: any;
+  content: {
+    labelText: string;
+    keyId: string;
+    defaultValue?: string;
+  };
+}) => {
+  let InputVariant = getInputType(props.variant);
   return (
     <div>
-      <InputLabel htmlFor={keyId}>{labelText}</InputLabel>
-      <InputVariant error={isError} required={isRequired} type="text" onChange={changeHandle} name={keyId} id={keyId} />
+      <InputLabel htmlFor={props.content.keyId}>{props.content.labelText}</InputLabel>
+      <InputVariant
+        error={props.isError}
+        required={props.isRequired}
+        type="text"
+        defaultValue={props.content.defaultValue}
+        onChange={(e) => props.changeHandle({ target: { name: props.content.keyId, id: props.content.keyId, value: e.target.value } } as any)}
+        name={props.content.keyId}
+        id={props.content.keyId}
+      />
     </div>
   );
 };

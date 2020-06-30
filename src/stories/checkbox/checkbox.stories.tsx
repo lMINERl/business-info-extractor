@@ -12,21 +12,21 @@ storiesOf('Checkbox', module)
       {/* </div> */}
     </ThemeProvider>
   ))
-  .add('CheckboxDefault', () =>
-    CheckboxDefault(
-      (event: { target: { name: string; value: any } }) => {
+  .add('CheckboxDefault', () => (
+    <CheckboxDefault
+      handleChange={(event: any) => {
         console.log({ [event.target.name]: event.target.value });
-      },
-      { keyId: 'key1', label: 'Agree on Privacy and Policy' },
-      {
+      }}
+      content={{ defaultValue: undefined, keyId: 'key1', label: 'Agree on Privacy and Policy' }}
+      options={{
         iconValues: {
           checkIconValue: 'checked',
           unCheckedIconValue: 'unchecked',
           intermidateIconValue: 'intermidate'
         }
-      }
-    )
-  )
+      }}
+    />
+  ))
   .add('CheckBoxAddFavorite', () =>
     CheckboxAddFavorite((event: React.ChangeEvent<HTMLInputElement>) => console.log({ [event.target.name]: event.target.value }), 'key2')
   );

@@ -13,19 +13,31 @@ storiesOf('Input', module)
       </div>
     </ThemeProvider>
   ))
-  .add('InputTelephoneNumber', () =>
-    InputTelephoneNumber(InputVariant.standard, (event: ChangeEvent<HTMLInputElement>) => console.log(event.target.value), 'telephoneNumber')
-  )
+  .add('InputTelephoneNumber', () => (
+    <InputTelephoneNumber
+      variant={InputVariant.standard}
+      changeHandle={(event: any) => console.log(event.target.value)}
+      content={{ keyId: 'telephoneNumber' }}
+    />
+  ))
   .add('InputPassword', () => {
-    return InputPassword(InputVariant.standard, (event: ChangeEvent<HTMLInputElement>) => console.log(event.target.value), 'password');
+    return (
+      <InputPassword
+        variant={InputVariant.standard}
+        changeHandle={(event: ChangeEvent<HTMLInputElement>) => console.log(event.target.value)}
+        content={{ keyId: 'password' }}
+      />
+    );
   })
-  .add('InputText', () =>
-    InputText(
-      InputVariant.standard,
-      'any label Text',
-      false,
-      true,
-      (event: ChangeEvent<HTMLInputElement>) => useState(event.target.value),
-      'NormalInput'
-    )
-  );
+  .add('InputText', () => (
+    <InputText
+      variant={InputVariant.standard}
+      isRequired={false}
+      isError={true}
+      changeHandle={(event: ChangeEvent<HTMLInputElement>) => useState(event.target.value)}
+      content={{
+        keyId: 'NormalInput',
+        labelText: 'any label Text'
+      }}
+    />
+  ));

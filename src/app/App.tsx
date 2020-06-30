@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, useCallback } from 'react';
+import React, { useMemo, useReducer } from 'react';
 import logo from '../assets/logo.svg';
 import './App.css';
 
@@ -12,29 +12,80 @@ import { CheckboxDefault } from '../stories/checkbox';
 // import { getAllData } from '../store/actions/DataActions';
 
 const App: React.FC = () => {
-  const [formState, setFromState] = useState<{ [key: string]: any }>({});
-  // const [formState, setFromState] = useState<();
+  // const [formState, setFromState] = useState<{ [key: string]: any }>({});
+  const [formState, formStateDispatch] = useReducer(
+    (state: { [key: string]: any }, payload: { target: { name: string; id: string; value: any } }) => {
+      let newState = { ...state };
+      // debugger;
+      newState = { ...state, [payload.target.id]: payload.target.value };
+      return { ...newState };
+    },
+    {}
+  );
 
-  // all render Update Issue
+  // memo function shouldnt be arrow fn
 
-  const changeHandle =
-    // useCallback(
-    //   () =>
-    (event: ChangeEvent<HTMLInputElement>) => {
-      setFromState({ ...formState, [event.target.id]: event.target.value });
-    };
-  //   [formState]
-  // );
+  // let handleChange = (event: ChangeEvent<HTMLInputElement>) => setFromState({ ...formState, [event.target.id]: event.target.value });
 
-  const telephoneNumber = InputTelephoneNumber(InputVariant.standard, changeHandle, 'textMask');
+  const telephoneNumber = useMemo(
+    () => (
+      <InputTelephoneNumber
+        variant={InputVariant.standard}
+        changeHandle={formStateDispatch}
+        content={{ keyId: 'textMask', defaultValue: formState.textMask }}
+      />
+    ),
+    [formState.textMask]
+  );
 
-  const password = InputPassword(InputVariant.outlined, changeHandle, 'password');
+  const password = useMemo(
+    () => (
+      <InputPassword
+        variant={InputVariant.standard}
+        changeHandle={(e: any) => formStateDispatch(e)}
+        content={{ keyId: 'password', defaultValue: formState.password }}
+      />
+    ),
+    [formState.password]
+  );
 
-  const anytext = InputText(InputVariant.standard, 'AnyText', false, true, changeHandle, 'textinput');
+  const anytext = useMemo(
+    () => (
+      <InputText
+        variant={InputVariant.standard}
+        changeHandle={(e: any) => formStateDispatch(e)}
+        content={{ keyId: 'textinput', defaultValue: formState.textinput, labelText: 'anytext' }}
+      />
+    ),
+    [formState.textinput]
+  );
 
-  const termsOfService = CheckboxDefault(changeHandle, { keyId: 'chkbx1', label: 'Agree on terms of services' });
-  const privacy = CheckboxDefault(changeHandle, { keyId: 'chkbx2', label: 'Agree on Privacy and Policy' });
-  const userAgreement = CheckboxDefault(changeHandle, { keyId: 'chkbx3', label: 'Agree on User Agreement' });
+  const termsOfService = useMemo(() => {
+    return (
+      <CheckboxDefault
+        handleChange={(e) => formStateDispatch(e)}
+        content={{ keyId: 'chkbx1', label: 'Agree on terms of services', defaultValue: formState.chkbx1 }}
+      />
+    );
+  }, [formState.chkbx1]);
+  const privacy = useMemo(
+    () => (
+      <CheckboxDefault
+        handleChange={(e) => formStateDispatch(e)}
+        content={{ defaultValue: formState.chkbx2, keyId: 'chkbx2', label: 'Agree on Privacy and Policy' }}
+      />
+    ),
+    [formState.chkbx2]
+  );
+  const userAgreement = useMemo(
+    () => (
+      <CheckboxDefault
+        handleChange={(e) => formStateDispatch(e)}
+        content={{ keyId: 'chkbx3', label: 'Agree on User Agreement', defaultValue: formState.chkbx3 }}
+      />
+    ),
+    [formState.chkbx3]
+  );
 
   // const reducers = useSelector((state: RootState) => state.data);
   // const dispatch = useDispatch();
@@ -61,8 +112,8 @@ const App: React.FC = () => {
         </a>
       </header>
       <div className="App">
-        {telephoneNumber}
-        {password}
+        <div>{telephoneNumber}</div>
+        <div>{password}</div>
         <br />
         <div style={{ display: 'inline-flex', flexDirection: 'column' }}>
           {termsOfService}

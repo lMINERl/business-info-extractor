@@ -1,4 +1,4 @@
-import React, { useState, useReducer, useEffect } from 'react';
+import React, { useReducer, useEffect } from 'react';
 import { FormLabel, IconButton } from '@material-ui/core';
 import { FavoriteBorder, Favorite, CheckBox, CheckBoxOutlineBlank, IndeterminateCheckBox } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
@@ -25,6 +25,7 @@ interface CheckBoxIconValues {
 interface CheckBoxContent {
   keyId: string;
   label?: string;
+  defaultValue: string | number | readonly string[] | undefined;
 }
 
 const defaultCheckboxIconShapes: CheckBoxIconShapes = {
@@ -39,26 +40,24 @@ const defaultCheckboxIconValues: CheckBoxIconValues = {
   intermidateIconValue: undefined
 };
 
-export const CheckboxDefault = (
-  handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void,
-  content: CheckBoxContent,
-  options: {
+export const CheckboxDefault = (props: {
+  handleChange: (event: any) => void;
+  content: CheckBoxContent;
+  options?: {
     iconShape?: CheckBoxIconShapes;
     iconValues?: CheckBoxIconValues;
-  } = {
-    iconShape: defaultCheckboxIconShapes,
-    iconValues: defaultCheckboxIconValues
-  }
-) => {
+  };
+}) => {
   // Styles
   const classes = checkboxDefaultStyles();
   // State
-  const [countState, setCountState] = useState<number>(0);
+
+  const options = props.options ? props.options : { iconShape: defaultCheckboxIconShapes, iconValues: defaultCheckboxIconValues };
 
   const iconShape = options.iconShape ? options.iconShape : defaultCheckboxIconShapes;
   const iconValue = options.iconValues ? options.iconValues : defaultCheckboxIconValues;
 
-  const [state, dispatch] = useReducer(
+  const [optionsState, optionsDispatch] = useReducer(
     (state: any, action?: number) => {
       let newState = { ...state };
       let newValueArr = [...newState.valueArr];
@@ -75,44 +74,65 @@ export const CheckboxDefault = (
     }
   );
 
+  const [countState, changeCountDispatch] = useReducer(
+    (state: any, payload?: any) => {
+      let newState = { ...state };
+      if (newState.count < optionsState.valueArr.length - 1) {
+        newState.count = newState.count + 1;
+      } else {
+        newState.count = 0;
+      }
+      return { ...newState };
+    },
+    { count: 0 }
+  );
+
+  const [changeHandleState, changeHandleDispatch] = useReducer(
+    (state: any, payload: any) => {
+      let newState = { ...state };
+      newState.value = optionsState.valueArr[payload];
+      return { ...newState };
+    },
+    {
+      name: props.content.keyId,
+      id: props.content.keyId,
+      value: optionsState.valueArr[countState.count]
+    }
+  );
+
   useEffect(() => {
-    dispatch();
+    optionsDispatch();
   }, []);
 
   // effects
-  React.useEffect(() => {
-    handleChange({
-      target: {
-        name: content.keyId,
-        id: content.keyId,
-        value: state.valueArr[countState]
-      }
-    } as any);
-  }, [countState, content.keyId]);
-
-  const handleClick = (event?: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    if (countState < state.valueArr.length - 1) {
-      setCountState(countState + 1);
-    } else {
-      setCountState(0);
-    }
-  };
   return (
     <div className={classes.root}>
-      <IconButton name={content.keyId} id={content.keyId} value={state.valueArr[countState]} onClick={handleClick}>
-        {state.shapeArr[countState]}
+      <IconButton
+        name={props.content.keyId}
+        id={props.content.keyId}
+        defaultValue={props.content.defaultValue}
+        value={optionsState.valueArr[countState.count]}
+        onClick={() => {
+          changeCountDispatch();
+          changeHandleDispatch(countState.count);
+          props.handleChange({ target: { ...changeHandleState } } as any);
+        }}
+      >
+        {optionsState.shapeArr[countState.count]}
       </IconButton>
-      {content.label ? <FormLabel htmlFor={content.keyId}>{content.label}</FormLabel> : null}
+      {props.content.label ? <FormLabel htmlFor={props.content.keyId}>{props.content.label}</FormLabel> : null}
     </div>
   );
 };
 
 export const CheckboxAddFavorite = (handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void, keyId: string) => {
-  return CheckboxDefault(
-    handleChange,
-    { keyId: keyId },
-    {
-      iconShape: { unCheckedIcon: <FavoriteBorder />, checkedIcon: <Favorite /> }
-    }
+  return (
+    <CheckboxDefault
+      handleChange={handleChange}
+      content={{ keyId: keyId, defaultValue: undefined }}
+      options={{
+        iconShape: { unCheckedIcon: <FavoriteBorder />, checkedIcon: <Favorite /> }
+      }}
+    />
   );
 };
