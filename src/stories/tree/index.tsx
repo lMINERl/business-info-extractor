@@ -1,10 +1,9 @@
 import React, { useMemo } from 'react';
 import { TreeItem, TreeItemProps, TreeView } from '@material-ui/lab';
-import { SvgIcon, SvgIconProps, withStyles, createStyles, Theme, Collapse, makeStyles, fade } from '@material-ui/core';
+import { withStyles, createStyles, Theme, Collapse, makeStyles, fade } from '@material-ui/core';
 import { TransitionProps } from '@material-ui/core/transitions';
 import { useSpring, animated } from 'react-spring/web.cjs';
 import { CloseSquare, PlusSquare, MinusSquare } from '../svg';
-import { debug } from 'console';
 
 function TransitionComponent(props: TransitionProps) {
   const style = useSpring({
