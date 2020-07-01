@@ -1,7 +1,8 @@
-import React, { useReducer, useEffect } from 'react';
-import { FormLabel, IconButton } from '@material-ui/core';
+import React, { useReducer, useEffect, useMemo } from 'react';
+import { IconButton } from '@material-ui/core';
 import { FavoriteBorder, Favorite, CheckBox, CheckBoxOutlineBlank, IndeterminateCheckBox } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
+import { FormLabelDefault } from '../labels';
 
 const checkboxDefaultStyles = makeStyles({
   root: {
@@ -104,9 +105,12 @@ export const CheckboxDefault = (props: {
     optionsDispatch();
   }, []);
 
-  // effects
-  return (
-    <div className={classes.root}>
+  const formLabel = useMemo(() => {
+    return props.content.label ? <FormLabelDefault content={{ text: props.content.label, forId: props.content.keyId }} /> : null;
+  }, [props.content.keyId, props.content.label]);
+
+  const iconButton = useMemo(() => {
+    return (
       <IconButton
         name={props.content.keyId}
         id={props.content.keyId}
@@ -120,16 +124,22 @@ export const CheckboxDefault = (props: {
       >
         {optionsState.shapeArr[countState.count]}
       </IconButton>
-      {props.content.label ? <FormLabel htmlFor={props.content.keyId}>{props.content.label}</FormLabel> : null}
+    );
+  }, [props.content.keyId, props.content.defaultValue, countState.count]);
+  // effects
+  return (
+    <div>
+      {iconButton}
+      {formLabel}
     </div>
   );
 };
 
-export const CheckboxAddFavorite = (handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void, keyId: string) => {
+export const CheckboxAddFavorite = (props: { handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void; keyId: string }) => {
   return (
     <CheckboxDefault
-      handleChange={handleChange}
-      content={{ keyId: keyId, defaultValue: undefined }}
+      handleChange={props.handleChange}
+      content={{ keyId: props.keyId, defaultValue: undefined }}
       options={{
         iconShape: { unCheckedIcon: <FavoriteBorder />, checkedIcon: <Favorite /> }
       }}

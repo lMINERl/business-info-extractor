@@ -27,6 +27,9 @@ storiesOf('Checkbox', module)
       }}
     />
   ))
-  .add('CheckBoxAddFavorite', () =>
-    CheckboxAddFavorite((event: React.ChangeEvent<HTMLInputElement>) => console.log({ [event.target.name]: event.target.value }), 'key2')
-  );
+  .add('CheckBoxAddFavorite', () => (
+    <CheckboxAddFavorite
+      handleChange={(event: React.ChangeEvent<HTMLInputElement>) => console.log({ [event.target.name]: event.target.value })}
+      keyId="key2"
+    />
+  ));

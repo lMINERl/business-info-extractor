@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import MaskedInput from 'react-text-mask';
-import { Input, InputAdornment, IconButton, InputLabel, FilledInput, OutlinedInput } from '@material-ui/core';
+import { Input, InputAdornment, IconButton, FilledInput, OutlinedInput } from '@material-ui/core';
 import { Visibility, VisibilityOff } from '@material-ui/icons';
+import { LabelDefault } from '../labels';
 
 export enum InputVariant {
   standard,
@@ -23,7 +24,7 @@ const getInputType = (variant: InputVariant | undefined) => {
       return Input;
   }
 };
-const TelephoneMaskCustom = (props: TextMaskCustomProps) => {
+export const TelephoneMaskCustom = (props: TextMaskCustomProps) => {
   const { inputRef, ...other } = props;
   return (
     <MaskedInput
@@ -59,10 +60,10 @@ export const InputPassword = (props: {
   };
 
   let InputVariant = getInputType(props.variant);
-
+  const inputLabel = useMemo(() => <LabelDefault content={{ text: 'password', forId: props.content.keyId }} />, [props.content.keyId]);
   return (
-    <div>
-      <InputLabel htmlFor={props.content.keyId}>Password</InputLabel>
+    <React.Fragment>
+      {inputLabel}
       <InputVariant
         type={showPassword ? 'text' : 'password'}
         onChange={(e) => props.changeHandle({ target: { name: props.content.keyId, id: props.content.keyId, value: e.target.value } } as any)}
@@ -78,7 +79,7 @@ export const InputPassword = (props: {
           </InputAdornment>
         }
       />
-    </div>
+    </React.Fragment>
   );
 };
 
@@ -91,9 +92,10 @@ export const InputTelephoneNumber = (props: {
   };
 }): JSX.Element => {
   let InputVariant = getInputType(props.variant);
+  const inputLabel = useMemo(() => <LabelDefault content={{ text: 'Telephone', forId: props.content.keyId }} />, [props.content.keyId]);
   return (
     <div>
-      <InputLabel htmlFor={props.content.keyId}>Telephone</InputLabel>
+      {inputLabel}
       <InputVariant
         type="text"
         defaultValue={props.content.defaultValue}
@@ -111,6 +113,7 @@ export const InputText = (props: {
   isError?: boolean;
   isRequired?: boolean;
   changeHandle: any;
+  inputComponent?: JSX.Element;
   content: {
     labelText: string;
     keyId: string;
@@ -118,9 +121,13 @@ export const InputText = (props: {
   };
 }) => {
   let InputVariant = getInputType(props.variant);
+  const inputLabel = useMemo(() => <LabelDefault content={{ text: props.content.labelText, forId: props.content.keyId }} />, [
+    props.content.keyId,
+    props.content.labelText
+  ]);
   return (
     <div>
-      <InputLabel htmlFor={props.content.keyId}>{props.content.labelText}</InputLabel>
+      {inputLabel}
       <InputVariant
         error={props.isError}
         required={props.isRequired}
@@ -129,6 +136,7 @@ export const InputText = (props: {
         onChange={(e) => props.changeHandle({ target: { name: props.content.keyId, id: props.content.keyId, value: e.target.value } } as any)}
         name={props.content.keyId}
         id={props.content.keyId}
+        inputComponent={props.inputComponent as any}
       />
     </div>
   );

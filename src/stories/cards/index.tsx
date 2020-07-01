@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
@@ -113,47 +113,66 @@ export interface CardContent {
     title: string;
     subTitle?: string;
   };
-  description: string;
+  description?: string;
 }
 
-export const CardComplex = (variant: CardVariant, cardShape: CardShape, cardContent: CardContent) => {
+export const CardComplex = (props: { variant: CardVariant; cardShape: CardShape; cardContent: CardContent }) => {
   const classes = cardComplexStyles();
 
-  const CardAvatar = cardShape.AvatarChar ? (
-    <Avatar aria-label="recipe" className={classes.avatar}>
-      {cardShape.AvatarChar}
-    </Avatar>
-  ) : null;
+  const CardAvatar = useMemo(() => {
+    return props.cardShape.AvatarChar ? (
+      <Avatar aria-label="recipe" className={classes.avatar}>
+        {props.cardShape.AvatarChar}
+      </Avatar>
+    ) : null;
+  }, [props.cardShape.AvatarChar]);
 
-  const CardSettings = cardShape.settings ? (
-    <IconButton aria-label="settings" onClick={cardShape.settings.handleSettings}>
-      <MoreVertIcon />
-    </IconButton>
-  ) : null;
+  const CardSettings = useMemo(() => {
+    return props.cardShape.settings ? (
+      <IconButton aria-label="settings" onClick={props.cardShape.settings.handleSettings}>
+        <MoreVertIcon />
+      </IconButton>
+    ) : null;
+  }, [props.cardShape.settings]);
 
-  const CardImage = cardShape.image ? <CardMedia className={classes.media} image={cardShape.image.path} title={cardShape.image.title} /> : null;
+  const CardImage = useMemo(() => {
+    return props.cardShape.image ? (
+      <CardMedia className={classes.media} image={props.cardShape.image.path} title={props.cardShape.image.title} />
+    ) : null;
+  }, [props.cardShape.image]);
 
-  const CardFavourate = cardShape.favourate
-    ? // <IconButton aria-label="add to favorites">
-      CheckboxAddFavorite(cardShape.favourate.handleFavourate, 'add Fav')
-    : // {/* </IconButton> */}
-      null;
+  const CardFavourate = useMemo(() => {
+    return props.cardShape.favourate ? <CheckboxAddFavorite handleChange={props.cardShape.favourate.handleFavourate} keyId="add Fav" /> : null;
+  }, [props.cardShape.favourate]);
 
-  const CardShare = cardShape.share ? (
-    <IconButton aria-label="share" onClick={cardShape.share.handleShare}>
-      <ShareIcon />
-    </IconButton>
-  ) : null;
+  const CardShare = useMemo(() => {
+    return props.cardShape.share ? (
+      <IconButton aria-label="share" onClick={props.cardShape.share.handleShare}>
+        <ShareIcon />
+      </IconButton>
+    ) : null;
+  }, [props.cardShape.share]);
 
-  const CardPannel = cardShape.pannel ? PannelDefault(<CardContent>{cardShape.pannel.component}</CardContent>) : null;
+  const CardPannel = props.cardShape.pannel ? PannelDefault(<CardContent>{props.cardShape.pannel.component}</CardContent>) : null;
+
+  const cardHeader = useMemo(() => {
+    return (
+      <CardHeader
+        avatar={CardAvatar}
+        action={CardSettings}
+        title={props.cardContent.header.title}
+        subheader={props.cardContent.header.subTitle || ''}
+      />
+    );
+  }, [props.cardContent.header]);
 
   return (
     <Card className={classes.root}>
-      <CardHeader avatar={CardAvatar} action={CardSettings} title={cardContent.header.title} subheader={cardContent.header.subTitle || ''} />
+      {cardHeader}
       {CardImage}
       <CardContent>
         <Typography variant="body2" color="textSecondary" component="p">
-          {cardContent.description}
+          {props.cardContent.description}
         </Typography>
       </CardContent>
       <CardActions>

@@ -14,10 +14,10 @@ storiesOf('Card', module)
     </ThemeProvider>
   ))
   .add('CardDefault', () => CardDefault(CardVariant.outlined))
-  .add('CardComplex', () =>
-    CardComplex(
-      CardVariant.elevation,
-      {
+  .add('CardComplex', () => (
+    <CardComplex
+      variant={CardVariant.elevation}
+      cardShape={{
         pannel: {
           component: (
             <React.Fragment>
@@ -35,14 +35,14 @@ storiesOf('Card', module)
         //   title: 'Paella dish',
         //   path: ''
         // }
-      },
-      {
+      }}
+      cardContent={{
         header: {
           title: 'Shrimp and Chorizo Paella',
           subTitle: 'September 14, 2016'
         },
         description:
           'This impressive paella is a perfect party dish and a fun meal to cook together with your guests. Add 1 cup of frozen peas along with the\r mussels, if you like.'
-      }
-    )
-  );
+      }}
+    />
+  ));
