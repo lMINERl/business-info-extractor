@@ -99,13 +99,13 @@ export const DrawerDefault = (props: {
   const list = useMemo(
     () =>
       items.length
-        ? items.map((item: { key: string; icon: JSX.Element }[], index: number) => {
+        ? items.map((item: { key: string; icon: JSX.Element }[], itemIndex: number) => {
             return (
-              <div key={index}>
+              <div key={itemIndex}>
                 <List>
-                  {item.map(({ key, icon }, index: number) => {
+                  {item.map(({ key, icon }, valueIndex: number) => {
                     return (
-                      <ListItem button key={index}>
+                      <ListItem button key={`${valueIndex}-${itemIndex}`}>
                         <ListItemIcon>{icon}</ListItemIcon>
                         <ListItemText primary={key} />
                       </ListItem>
@@ -117,7 +117,7 @@ export const DrawerDefault = (props: {
             );
           })
         : null,
-    [content.items]
+    [items]
   );
 
   const title = useMemo(
@@ -146,7 +146,7 @@ export const DrawerDefault = (props: {
         {title}
       </Toolbar>
     ),
-    [title]
+    [title, classes, open]
   );
 
   const appbar = useMemo(
@@ -163,7 +163,7 @@ export const DrawerDefault = (props: {
         </AppBar>
       </React.Fragment>
     ),
-    [open]
+    [classes, open, toolbar]
   );
 
   const collapseButton = useMemo(
@@ -198,7 +198,7 @@ export const DrawerDefault = (props: {
         {list}
       </Drawer>
     ),
-    [open]
+    [open, collapseButton, classes, list]
   );
 
   return (

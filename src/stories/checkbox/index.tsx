@@ -1,15 +1,7 @@
 import React, { useReducer, useEffect, useMemo } from 'react';
 import { IconButton } from '@material-ui/core';
 import { FavoriteBorder, Favorite, CheckBox, CheckBoxOutlineBlank, IndeterminateCheckBox } from '@material-ui/icons';
-import { makeStyles } from '@material-ui/core/styles';
 import { FormLabelDefault } from '../labels';
-
-const checkboxDefaultStyles = makeStyles({
-  root: {
-    display: 'flex',
-    alignItems: 'center'
-  }
-});
 
 interface CheckBoxIconShapes {
   checkedIcon: JSX.Element;
@@ -49,8 +41,6 @@ export const CheckboxDefault = (props: {
     iconValues?: CheckBoxIconValues;
   };
 }) => {
-  // Styles
-  const classes = checkboxDefaultStyles();
   // State
 
   const options = props.options ? props.options : { iconShape: defaultCheckboxIconShapes, iconValues: defaultCheckboxIconValues };
@@ -125,7 +115,7 @@ export const CheckboxDefault = (props: {
         {optionsState.shapeArr[countState.count]}
       </IconButton>
     );
-  }, [props.content.keyId, props.content.defaultValue, countState.count]);
+  }, [countState.count, props, optionsState, changeHandleState]);
   // effects
   return (
     <div>

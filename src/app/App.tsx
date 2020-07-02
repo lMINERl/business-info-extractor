@@ -1,8 +1,8 @@
-import React, { useMemo, useReducer } from 'react';
+import React, { useMemo, useReducer, useState } from 'react';
 import logo from '../assets/logo.svg';
 import './App.css';
 
-import { Button, ThemeProvider, MuiThemeProvider, createMuiTheme } from '@material-ui/core';
+import { Button } from '@material-ui/core';
 
 import { InputTelephoneNumber, InputVariant, InputPassword, InputText } from '../stories/inputs';
 import { CheckboxDefault } from '../stories/checkbox';
@@ -24,7 +24,6 @@ const App: React.FC = () => {
     },
     {}
   );
-
   // memo function shouldnt be arrow fn
 
   // let handleChange = (event: ChangeEvent<HTMLInputElement>) => setFromState({ ...formState, [event.target.id]: event.target.value });
@@ -97,9 +96,9 @@ const App: React.FC = () => {
   // }, []);
 
   const handleSubmit = (event: React.FormEvent<HTMLButtonElement>) => {
-    event.preventDefault();
+    // event.preventDefault();
     // console.log(reducers.filteredList);
-    console.log(formState);
+    console.log({ ...formState });
   };
 
   const app = (
@@ -130,7 +129,10 @@ const App: React.FC = () => {
     </div>
   );
 
-  return <DrawerDefault content={{ container: app, toolbarTitle: 'React App', items: [[{ key: 'Home', icon: <Home /> }]] }} />;
+  // Don't staticly enter content={{...}} in Drawer instead use useState for performance issue pre passing props each chile render
+  // also Dont enter container in useState hook instead staticly add it to content like below otherwise handle submit will return { }
+  const [content, setContent] = useState({ toolbarTitle: 'React App', items: [[{ key: 'Home', icon: <Home /> }]] });
+  return <DrawerDefault content={{ ...content, container: app }} />;
 };
 
 export default App;
