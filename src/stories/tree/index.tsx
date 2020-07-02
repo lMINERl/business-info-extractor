@@ -100,13 +100,7 @@ export const TreeDefault = (props: {
     [objectEntries]
   );
   return (
-    <TreeView
-      className={classes.root}
-      defaultExpanded={['1']}
-      defaultEndIcon={closeSquare}
-      defaultExpandIcon={plusSquare}
-      defaultCollapseIcon={minusSquare}
-    >
+    <TreeView className={classes.root} defaultEndIcon={closeSquare} defaultExpandIcon={plusSquare} defaultCollapseIcon={minusSquare}>
       {tree}
     </TreeView>
   );

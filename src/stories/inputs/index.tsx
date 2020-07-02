@@ -62,7 +62,7 @@ export const InputPassword = (props: {
   let InputVariant = getInputType(props.variant);
   const inputLabel = useMemo(() => <LabelDefault content={{ text: 'password', forId: props.content.keyId }} />, [props.content.keyId]);
   return (
-    <React.Fragment>
+    <div>
       {inputLabel}
       <InputVariant
         type={showPassword ? 'text' : 'password'}
@@ -79,7 +79,7 @@ export const InputPassword = (props: {
           </InputAdornment>
         }
       />
-    </React.Fragment>
+    </div>
   );
 };
 

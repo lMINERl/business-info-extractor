@@ -2,10 +2,12 @@ import React, { useMemo, useReducer } from 'react';
 import logo from '../assets/logo.svg';
 import './App.css';
 
-import { Button } from '@material-ui/core';
+import { Button, ThemeProvider, MuiThemeProvider, createMuiTheme } from '@material-ui/core';
 
 import { InputTelephoneNumber, InputVariant, InputPassword, InputText } from '../stories/inputs';
 import { CheckboxDefault } from '../stories/checkbox';
+import { DrawerDefault } from '../stories/drawer';
+import { Home } from '@material-ui/icons';
 // import { useSelector, useDispatch } from 'react-redux';
 // import { RootState } from '../store';
 // import { CheckboxDefault } from '../stories/checkbox';
@@ -100,7 +102,7 @@ const App: React.FC = () => {
     console.log(formState);
   };
 
-  return (
+  const app = (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
@@ -127,6 +129,8 @@ const App: React.FC = () => {
       </div>
     </div>
   );
+
+  return <DrawerDefault content={{ container: app, toolbarTitle: 'React App', items: [[{ key: 'Home', icon: <Home /> }]] }} />;
 };
 
 export default App;
