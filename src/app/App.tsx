@@ -132,7 +132,7 @@ const App: React.FC = () => {
   // Don't staticly enter content={{...}} in Drawer instead use useState for performance issue pre passing props each chile render
   // also Dont enter container in useState hook instead staticly add it to content like below otherwise handle submit will return { }
   const [content, setContent] = useState({ toolbarTitle: 'React App', items: [[{ key: 'Home', icon: <Home /> }]] });
-  return <DrawerDefault content={{ ...content, container: app }} />;
+  return <DrawerDefault container={app} content={{ ...content }} />;
 };
 
 export default App;

@@ -15,6 +15,7 @@ storiesOf('Drawer', module)
   ))
   .add('DrawerDefault', () => (
     <DrawerDefault
+      container={<React.Fragment></React.Fragment>}
       content={{
         toolbarTitle: 'Any Mail',
         items: [
