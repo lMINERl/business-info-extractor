@@ -9,7 +9,6 @@ import { CardHeader, Avatar, IconButton, CardMedia } from '@material-ui/core';
 import { red } from '@material-ui/core/colors';
 
 // Icons
-import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { PannelDefault } from '../pannel';
@@ -125,7 +124,7 @@ export const CardComplex = (props: { variant: CardVariant; cardShape: CardShape;
         {props.cardShape.AvatarChar}
       </Avatar>
     ) : null;
-  }, [props.cardShape.AvatarChar]);
+  }, [props.cardShape.AvatarChar, classes.avatar]);
 
   const CardSettings = useMemo(() => {
     return props.cardShape.settings ? (
@@ -139,7 +138,7 @@ export const CardComplex = (props: { variant: CardVariant; cardShape: CardShape;
     return props.cardShape.image ? (
       <CardMedia className={classes.media} image={props.cardShape.image.path} title={props.cardShape.image.title} />
     ) : null;
-  }, [props.cardShape.image]);
+  }, [props.cardShape.image, classes.media]);
 
   const CardFavourate = useMemo(() => {
     return props.cardShape.favourate ? <CheckboxAddFavorite handleChange={props.cardShape.favourate.handleFavourate} keyId="add Fav" /> : null;
@@ -164,7 +163,7 @@ export const CardComplex = (props: { variant: CardVariant; cardShape: CardShape;
         subheader={props.cardContent.header.subTitle || ''}
       />
     );
-  }, [props.cardContent.header]);
+  }, [props.cardContent.header, CardAvatar, CardSettings]);
 
   return (
     <Card className={classes.root}>
