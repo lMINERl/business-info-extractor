@@ -86,7 +86,8 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export const DrawerDefault = (props: {
-  content?: { container?: JSX.Element; toolbarTitle?: string; items?: { key: string; icon: JSX.Element }[][] };
+  container: JSX.Element;
+  content?: { toolbarTitle?: string; items?: { key: string; icon: JSX.Element }[][] };
 }) => {
   const classes = useStyles();
   const theme = useTheme();
@@ -207,7 +208,7 @@ export const DrawerDefault = (props: {
       {drawer}
       <main className={classes.content}>
         <div className={classes.toolbar} />
-        {content.container}
+        {props.container}
       </main>
     </div>
   );
