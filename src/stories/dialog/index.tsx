@@ -10,13 +10,13 @@ export const DialogDefault = (props: {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
-  const shape = props.shape ? props.shape : null;
-  const agree = shape ? (shape.buttonAgree ? shape.buttonAgree : null) : null;
-  const close = shape ? (shape.buttonClose ? shape.buttonClose : null) : null;
+  const shape = props.shape ?? null;
+  const agree = shape ? shape.buttonAgree ?? null : null;
+  const close = shape ? shape.buttonClose ?? null : null;
 
-  const content = props.content ? props.content : { title: '', description: '' };
-  const title = content.title ? content.title : '';
-  const description = content.description ? content.description : '';
+  const content = props.content ?? { title: '', description: '' };
+  const title = content.title ?? '';
+  const description = content.description ?? '';
 
   const closeButton = useMemo(
     () =>

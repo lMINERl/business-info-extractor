@@ -86,9 +86,9 @@ export const TreeDefault = (props: {
 
   const shapes = props.shapes ? props.shapes : { collapseIcon: <MinusSquare />, expandIcon: <PlusSquare />, closeIcon: <CloseSquare /> };
 
-  const closeIcon = shapes.closeIcon ? shapes.closeIcon : null;
-  const expandIcon = shapes.expandIcon ? shapes.expandIcon : <PlusSquare />;
-  const collapseIcon = shapes.collapseIcon ? shapes.collapseIcon : <MinusSquare />;
+  const closeIcon = shapes.closeIcon ?? null;
+  const expandIcon = shapes.expandIcon ?? <PlusSquare />;
+  const collapseIcon = shapes.collapseIcon ?? <MinusSquare />;
 
   const closeSquare = useMemo(() => closeIcon, [closeIcon]);
   const plusSquare = useMemo(() => expandIcon, [expandIcon]);

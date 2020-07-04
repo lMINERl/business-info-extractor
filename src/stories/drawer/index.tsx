@@ -93,8 +93,8 @@ export const DrawerDefault = (props: {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
-  const content = props.content ? props.content : { toolbarTitle: '', items: [] };
-  const toolbarTitle = content.toolbarTitle ? content.toolbarTitle : '';
+  const content = props.content ?? { toolbarTitle: '', items: [] };
+  const toolbarTitle = content.toolbarTitle ?? '';
   const items = content.items && content.items.length ? content.items : [];
 
   const list = useMemo(
