@@ -18,7 +18,7 @@ interface CheckBoxIconValues {
 interface CheckBoxContent {
   keyId: string;
   label?: string;
-  defaultValue: string | number | readonly string[] | undefined;
+  defaultValue?: string | number | readonly string[];
 }
 
 const defaultCheckboxIconShapes: CheckBoxIconShapes = {
