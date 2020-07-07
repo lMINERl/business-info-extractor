@@ -1,8 +1,18 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+This Project is all about creating highly customized library of components to make web site/app with Material UI
+
+it follows Component Driven Development (CDD) in stories then Test Driven Development (TDD) for single containers in react
+
 ## Available Scripts
 
 In the project directory, you can run:
+### `yarn storybook`
+Runs single component view
+open [http://localhost:9009](http://localhost:9009) to view it in the browser
+
+### `yarn node-sass`
+Runs pre css processor
 
 ### `yarn start`
 
