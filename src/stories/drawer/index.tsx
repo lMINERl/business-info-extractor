@@ -88,6 +88,7 @@ const useStyles = makeStyles((theme: Theme) =>
 export const DrawerDefault = (props: {
   container: JSX.Element;
   content?: { toolbarTitle?: string; items?: { key: string; icon: JSX.Element }[][] };
+  actions?: { menuItemClick?: any };
 }) => {
   const classes = useStyles();
   const theme = useTheme();
@@ -96,6 +97,10 @@ export const DrawerDefault = (props: {
   const content = props.content ?? { toolbarTitle: '', items: [] };
   const toolbarTitle = content.toolbarTitle ?? '';
   const items = content.items && content.items.length ? content.items : [];
+  const actions = props.actions ?? { menuItemClick: () => {} };
+  const menuItemClick = actions.menuItemClick ?? function () {};
+
+  const [selectedItem, setSelectedItem] = React.useState<string>(items.length ? (items[0].length ? items[0][0].key : '') : '');
 
   const list = useMemo(
     () =>
@@ -106,7 +111,15 @@ export const DrawerDefault = (props: {
                 <List>
                   {item.map(({ key, icon }, valueIndex: number) => {
                     return (
-                      <ListItem button key={`${valueIndex}-${itemIndex}`}>
+                      <ListItem
+                        selected={key === selectedItem}
+                        onClick={(e) => {
+                          setSelectedItem(key);
+                          menuItemClick(e);
+                        }}
+                        button
+                        key={`${valueIndex}-${itemIndex}`}
+                      >
                         <ListItemIcon>{icon}</ListItemIcon>
                         <ListItemText primary={key} />
                       </ListItem>
@@ -118,7 +131,7 @@ export const DrawerDefault = (props: {
             );
           })
         : null,
-    [items]
+    [items, selectedItem, menuItemClick]
   );
 
   const title = useMemo(
