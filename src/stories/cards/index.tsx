@@ -10,9 +10,10 @@ import { red } from '@material-ui/core/colors';
 
 // Icons
 import ShareIcon from '@material-ui/icons/Share';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { PannelDefault } from '../pannel';
 import { CheckboxAddFavorite } from '../checkbox';
+import { MenuDefault } from '../menu';
+import { MoreVert } from '@material-ui/icons';
 
 const cardComplexStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -128,9 +129,11 @@ export const CardComplex = (props: { variant: CardVariant; cardShape: CardShape;
 
   const CardSettings = useMemo(() => {
     return props.cardShape.settings ? (
-      <IconButton aria-label="settings" onClick={props.cardShape.settings.handleSettings}>
-        <MoreVertIcon />
-      </IconButton>
+      <MenuDefault
+        content={{ menuList: ['Delete', 'Add To Cart', 'Edit'] }}
+        actions={{ buttonClick: props.cardShape.settings.handleSettings }}
+        shape={{ buttonIcon: <MoreVert /> }}
+      />
     ) : null;
   }, [props.cardShape.settings]);
 
