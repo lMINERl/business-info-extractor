@@ -1,9 +1,5 @@
 import React, { useMemo } from 'react';
-// import { Map, List } from 'immutable';
-import IconButton from '@material-ui/core/IconButton';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import { Typography } from '@material-ui/core';
+import { Typography, Button, Menu, MenuItem } from '@material-ui/core';
 
 export const MenuDefault = (props: {
   shape?: {
@@ -59,7 +55,7 @@ export const MenuDefault = (props: {
 
   const menuButton = useMemo(
     () => (
-      <IconButton
+      <Button
         aria-label="more"
         aria-controls="long-menu"
         aria-haspopup="true"
@@ -70,32 +66,34 @@ export const MenuDefault = (props: {
       >
         <Typography component="h6"> {buttonName}</Typography>
         {buttonIcon}
-      </IconButton>
+      </Button>
     ),
     [buttonIcon, buttonName]
   );
 
   return (
-    <div>
+    <React.Fragment>
       {menuButton}
-      <Menu
-        id="long-menu"
-        anchorEl={anchorEl}
-        keepMounted
-        open={open}
-        onClose={() => {
-          menuClose();
-          setOpen(false);
-        }}
-        PaperProps={{
-          style: {
-            maxHeight: 48 * 4.5,
-            width: '20ch'
-          }
-        }}
-      >
-        {list}
-      </Menu>
-    </div>
+      <div>
+        <Menu
+          id="long-menu"
+          anchorEl={anchorEl}
+          keepMounted
+          open={open}
+          onClose={() => {
+            menuClose();
+            setOpen(false);
+          }}
+          PaperProps={{
+            style: {
+              maxHeight: 48 * 4.5,
+              width: '20ch'
+            }
+          }}
+        >
+          {list}
+        </Menu>
+      </div>
+    </React.Fragment>
   );
 };
