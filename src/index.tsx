@@ -13,9 +13,9 @@ const myStore = createStore(rootReducer);
 
 ReactDOM.render(
   <Provider store={myStore}>
-    <React.StrictMode>
+    <React.Fragment>
       <App />
-    </React.StrictMode>
+    </React.Fragment>
   </Provider>,
   document.getElementById('root')
 );
