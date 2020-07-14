@@ -1,17 +1,26 @@
 import React, { useMemo, useReducer, useState } from 'react';
-import logo from '../assets/logo.svg';
+import validator from 'validator';
+// import logo from '../assets/logo.svg';
 import './App.css';
 
-import { Button } from '@material-ui/core';
+// import { Button } from '@material-ui/core';
 
-import { InputTelephoneNumber, InputVariant, InputPassword, InputText } from '../stories/inputs';
-import { CheckboxDefault } from '../stories/checkbox';
+// import { InputTelephoneNumber, InputVariant, InputPassword, InputText } from '../stories/inputs';
+// import { CheckboxDefault } from '../stories/checkbox';
 import { DrawerDefault } from '../stories/drawer';
-import { Home } from '@material-ui/icons';
+import { Home, ViewColumnSharp } from '@material-ui/icons';
+import { TableDefault } from '../stories/table';
+import { Column } from 'material-table';
 // import { useSelector, useDispatch } from 'react-redux';
 // import { RootState } from '../store';
 // import { CheckboxDefault } from '../stories/checkbox';
 // import { getAllData } from '../store/actions/DataActions';
+
+interface tblData {
+  id: number | string;
+  question: string;
+  answer: string;
+}
 
 const App: React.FC = () => {
   // const [formState, setFromState] = useState<{ [key: string]: any }>({});
@@ -24,11 +33,71 @@ const App: React.FC = () => {
     },
     {}
   );
+
+  const [columns, setColumns] = useState<Column<any>[]>([
+    {
+      title: 'Question',
+      field: 'question',
+      type: 'string',
+      validate: (data: tblData) => {
+        const valid = !validator.isEmpty(data.question ?? '', { ignore_whitespace: true });
+        return { isValid: valid, helperText: valid ? '' : 'Invalid Question' };
+      }
+    },
+    {
+      title: 'Answer',
+      field: 'answer',
+      type: 'string',
+      validate: (data: tblData) => {
+        const valid = !validator.isEmpty(data.answer ?? '', { ignore_whitespace: true });
+        return { isValid: valid, helperText: valid ? '' : 'Invalid Answer' };
+      }
+    },
+    {
+      title: 'id',
+      field: 'id',
+      hidden: true
+    }
+  ]);
+  const [state, dispatchData] = React.useReducer(
+    (state: { data: tblData[] }, action: { name: 'add' | 'update' | 'delete'; payload: { oldDataId?: string | number; newData: tblData } }) => {
+      let newState = { ...state };
+      let newData = [...newState.data];
+      switch (action.name) {
+        case 'add':
+          newData.push({ ...action.payload.newData, id: Date.now() });
+          break;
+        case 'delete':
+          {
+            const index = newData.findIndex((value) => value.id === action.payload.oldDataId);
+            if (index !== -1) {
+              newData = [].concat(newData.slice(0, index) as any, newData.slice(index + 1, newData.length) as any);
+            }
+          }
+          break;
+        case 'update':
+          {
+            const index = newData.findIndex((value) => value.id === action.payload.oldDataId);
+            if (index !== -1 && action.payload.oldDataId) {
+              newData[index] = { ...action.payload.newData, id: action.payload.oldDataId };
+            }
+          }
+          break;
+        default:
+          break;
+      }
+      return { ...state, data: newData };
+    },
+    {
+      data: []
+    }
+  );
   // memo function shouldnt be arrow fn
 
   // let handleChange = (event: ChangeEvent<HTMLInputElement>) => setFromState({ ...formState, [event.target.id]: event.target.value });
-
-  const telephoneNumber = useMemo(
+  const ignore = (
+    <React.Fragment>
+      {/* const telephoneNumber = useMemo(
     () => (
       <InputTelephoneNumber
         variant={InputVariant.standard}
@@ -127,12 +196,38 @@ const App: React.FC = () => {
         </Button>
       </div>
     </div>
+  ); */}
+    </React.Fragment>
+  );
+
+  const questionsBank = (
+    <TableDefault
+      columns={columns}
+      data={state.data}
+      content={{ title: 'Questions Bank' }}
+      actions={{
+        onRowAdd: (newData) => {
+          if (Object.keys(newData).length < columns.length - 1) {
+            dispatchData({ name: 'add', payload: { newData: newData } });
+          }
+          return new Promise<any>((res) => res());
+        },
+        onRowUpdate: (newData, oldData) => {
+          dispatchData({ name: 'update', payload: { oldDataId: oldData.id, newData: newData } });
+          return new Promise<any>((res) => res());
+        },
+        onRowDelete: (oldData) => {
+          dispatchData({ name: 'delete', payload: { oldDataId: oldData.id, newData: oldData } });
+          return new Promise<any>((res) => res());
+        }
+      }}
+    />
   );
 
   // Don't staticly enter content={{...}} in Drawer instead use useState for performance issue pre passing props each chile render
   // also Dont enter container in useState hook instead staticly add it to content like below otherwise handle submit will return { }
   const [content, setContent] = useState({ toolbarTitle: 'React App', items: [[{ key: 'Home', icon: <Home /> }]] });
-  return <DrawerDefault container={app} content={{ ...content }} />;
+  return <DrawerDefault container={questionsBank} content={{ ...content }} />;
 };
 
 export default App;
