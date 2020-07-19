@@ -8,7 +8,7 @@ it follows Component Driven Development (CDD) in stories then Test Driven Develo
 
 In the project directory, you can run:
 ### `yarn storybook`
-Runs single component view
+run and organize single component view
 open [http://localhost:9009](http://localhost:9009) to view it in the browser
 
 ### `yarn node-sass`
