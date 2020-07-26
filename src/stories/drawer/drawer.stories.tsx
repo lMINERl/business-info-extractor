@@ -1,9 +1,9 @@
 import React from 'react';
 
 import { storiesOf } from '@storybook/react';
-import { ThemeProvider, createMuiTheme } from '@material-ui/core';
 import { DrawerDefault } from '.';
 import { Inbox, Send, Drafts, AllInbox, Delete, ErrorOutline } from '@material-ui/icons';
+import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
 storiesOf('Drawer', module)
   .addDecorator((story) => (
