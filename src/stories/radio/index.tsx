@@ -54,7 +54,7 @@ export const RadioDefault = (props: {
         id={id}
         checked={checked}
         value={value}
-        onClick={(e) => {
+        onClick={(e: any) => {
           onClick(e);
           setChecked(!checked);
         }}
