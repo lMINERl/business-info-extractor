@@ -1,5 +1,5 @@
 import React from 'react';
-import { EchartDefault, EchartSkills } from '.';
+import { EchartDefault, EchartSkills, EchartGraph } from '.';
 import { storiesOf } from '@storybook/react';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
@@ -44,4 +44,5 @@ storiesOf('Echart', module)
         ]
       }}
     />
-  ));
+  ))
+  .add('EchartGraph', () => <EchartGraph />);
