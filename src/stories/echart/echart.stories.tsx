@@ -1,5 +1,5 @@
 import React from 'react';
-import { EchartDefault, EchartSkills, EchartGraph } from '.';
+import { EchartDefault, EchartSkills, EchartGraph, EchartNetwork } from '.';
 import { storiesOf } from '@storybook/react';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
@@ -45,4 +45,101 @@ storiesOf('Echart', module)
       }}
     />
   ))
-  .add('EchartGraph', () => <EchartGraph />);
+  .add('EchartGraph', () => (
+    <EchartGraph
+      content={{
+        title: 'salesman',
+        data: [
+          {
+            name: 'ax',
+            value: 5,
+            children: [
+              { name: 'az', weight: 1 },
+              { name: 'ay', weight: 2 }
+            ]
+          },
+          {
+            name: 'as',
+            value: 5,
+            children: [
+              { name: 'az', weight: 1 },
+              { name: 'ay', weight: 4 }
+            ]
+          },
+          {
+            name: 'ay',
+            value: 5,
+            children: [
+              { name: 'aw', weight: 1 },
+              { name: 'ae', weight: 1 },
+              { name: 'az', weight: 1 }
+            ]
+          },
+          {
+            name: 'az',
+            value: 5,
+            children: [
+              { name: 'aw', weight: 1 },
+              { name: 'ae', weight: 1 },
+              { name: 'ax', weight: 1 },
+              { name: 'ay', weight: 1 }
+            ]
+          },
+          { name: 'aw', value: 5, children: [] },
+          { name: 'ae', value: 5, children: [] }
+        ]
+      }}
+    />
+  ))
+  // node names should be regex /node[0-9]*|output[0-9]*|input[0-9]*/gm
+  .add('EchartNetwork', () => (
+    <EchartNetwork
+      content={{
+        title: 'salesman',
+        data: [
+          {
+            name: 'input1',
+            value: 5,
+            children: [
+              { name: 'node1', weight: 1 },
+              { name: 'node3', weight: 2 }
+            ]
+          },
+          {
+            name: 'input2',
+            value: 5,
+            children: [
+              { name: 'node1', weight: 1 },
+              { name: 'node3', weight: 4 }
+            ]
+          },
+          {
+            name: 'node1',
+            value: 5,
+            children: [
+              { name: 'output1', weight: 1 },
+              { name: 'output2', weight: 1 }
+            ]
+          },
+          {
+            name: 'node2',
+            value: 5,
+            children: [
+              { name: 'output1', weight: 1 },
+              { name: 'output2', weight: 1 }
+            ]
+          },
+          {
+            name: 'node3',
+            value: 5,
+            children: [
+              { name: 'output1', weight: 1 },
+              { name: 'output2', weight: 1 }
+            ]
+          },
+          { name: 'output1', value: 5, children: [] },
+          { name: 'output2', value: 5, children: [] }
+        ]
+      }}
+    />
+  ));

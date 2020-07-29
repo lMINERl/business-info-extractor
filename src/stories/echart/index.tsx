@@ -132,7 +132,7 @@ interface Link {
   name: string;
   weight: number;
 }
-interface Graph {
+export interface Graph {
   name: string;
   value: number;
   children: Link[];
@@ -140,12 +140,12 @@ interface Graph {
 interface GraphData {
   name: string;
   value: number;
-  x: number;
-  y: number;
+  draggable?: boolean;
 }
 interface GraphLink {
   source: string;
   target: string;
+  value: number;
   lineStyle?: { width?: number; curveness?: number };
 }
 const getGrapthData = (graph: Graph[]) => {
@@ -157,7 +157,7 @@ const getGrapthData = (graph: Graph[]) => {
   graph.forEach((v: Graph) => {
     if (!tempPosNodes.includes(v.name)) {
       tempPosLink.push(v.name);
-      tempData.push({ name: v.name, value: v.value, x: 0, y: 0 });
+      tempData.push({ name: v.name, value: v.value });
     }
     v.children.forEach((link: Link) => {
       if (!tempPosLink.includes(`${v.name}>${link.name}`)) {
@@ -166,7 +166,8 @@ const getGrapthData = (graph: Graph[]) => {
         tempLink.push({
           source: v.name,
           target: link.name,
-          lineStyle: { curveness: tempPosLink.includes(`${link.name}>${v.name}`) ? 0.1 : 0, width: link.weight }
+          lineStyle: { curveness: tempPosLink.includes(`${link.name}>${v.name}`) ? 0.5 : 0, width: link.weight },
+          value: link.weight
         });
       }
     });
@@ -174,38 +175,19 @@ const getGrapthData = (graph: Graph[]) => {
   return { data: tempData, links: tempLink };
 };
 
-export const EchartGraph = (props: {}) => {
-  const graph: Graph[] = [
-    {
-      name: 'ax',
-      value: 5,
-      children: [
-        { name: 'az', weight: 1 },
-        { name: 'av', weight: 2 },
-        { name: 'ac', weight: 2 }
-      ]
-    },
-    {
-      name: 'az',
-      value: 5,
-      children: [
-        { name: 'av', weight: 1 },
-        { name: 'ac', weight: 1 },
-        { name: 'ax', weight: 4 }
-      ]
-    },
-    { name: 'ac', value: 5, children: [] },
-    { name: 'av', value: 5, children: [] }
-  ];
+export const EchartGraph = (props: { content?: { title?: string; data?: Graph[] } }) => {
+  const content = props.content ?? { title: '', data: [] };
+  const title = content.title ?? '';
+  const graphData = content.data ?? [];
 
-  let { data, links } = getGrapthData(graph);
+  let { data, links } = getGrapthData(graphData);
 
   const chart = useMemo(() => {
     return (
       <ReactEcharts
         option={{
           title: {
-            text: 'Graph 简单示例'
+            text: title
           },
           tooltip: {},
           animationDurationUpdate: 500,
@@ -214,76 +196,24 @@ export const EchartGraph = (props: {}) => {
             {
               type: 'graph',
               layout: 'force',
-              symbolSize: 20,
+              symbolSize: 40,
               roam: true,
               label: {
                 show: true
               },
-              edgeSymbol: [ 'arrow'],
+              edgeSymbol: ['circle', 'arrow'],
               edgeSymbolSize: [4, 10],
               edgeLabel: {
                 fontSize: 20
               },
               force: {
-                repulsion: 1000
+                repulsion: 1000,
+                // gravity: 0.1,
+                edgeLength: 100
               },
-              data: [
-                {
-                  name: 'ax',
-                  value: 2,
-                  draggable: true
-                },
-                {
-                  name: 'az'
-                },
-                {
-                  name: 'ac'
-                },
-                {
-                  name: 'av'
-                }
-              ],
+              data: data,
               // links: [],
-              links: [
-                {
-                  source: 0,
-                  target: 1,
-                  symbolSize: [5, 20],
-                  label: {
-                    show: true
-                  },
-                  lineStyle: {
-                    width: 5,
-                    curveness: 0.1
-                  }
-                },
-                {
-                  source: 'az',
-                  target: 'ax',
-                  lineStyle: {
-                    curveness: 0.1
-                  }
-                },
-                {
-                  source: 'ax',
-                  target: 'ac'
-                },
-                {
-                  source: 'az',
-                  target: 'ac',
-                  lineStyle: {
-                    curveness: -0.1
-                  }
-                },
-                {
-                  source: 'az',
-                  target: 'av'
-                },
-                {
-                  source: 'ax',
-                  target: 'av'
-                }
-              ],
+              links: links,
               lineStyle: {
                 opacity: 0.9,
                 width: 1,
@@ -294,6 +224,72 @@ export const EchartGraph = (props: {}) => {
         }}
       />
     );
-  }, []);
+  }, [data, links, title]);
+  return <React.Fragment>{chart}</React.Fragment>;
+};
+
+export const EchartNetwork = (props: { content?: { title?: string; data?: Graph[] } }) => {
+  const content = props.content ?? { title: '', data: [] };
+  const title = content.title ?? '';
+  const graphData = content.data ?? [];
+  const filtedData = graphData.filter((data) => /node[0-9]*|output[0-9]*|input[0-9]*/gm.test(data.name));
+  let { data, links } = getGrapthData(filtedData);
+  const input = data
+    .filter((record) => /input[0-9]/gm.test(record.name))
+    .map((record, index) => {
+      return { ...record, x: 400, y: index * 20 };
+    });
+  const nodes = data
+    .filter((record) => /node[0-9]/gm.test(record.name))
+    .map((record, index) => {
+      return { ...record, x: 420, y: index * 20 };
+    });
+  const output = data
+    .filter((record) => /output[0-9]/gm.test(record.name))
+    .map((record, index) => {
+      return { ...record, x: 440, y: index * 20 };
+    });
+  data = [...input, ...nodes, ...output];
+  const chart = useMemo(() => {
+    return (
+      <ReactEcharts
+        option={{
+          title: {
+            text: title
+          },
+          tooltip: {},
+          animationDurationUpdate: 500,
+          animationEasingUpdate: 'quinticInOut',
+          series: [
+            {
+              type: 'graph',
+              layout: 'none',
+              symbolSize: 40,
+              roam: true,
+              label: {
+                show: true
+              },
+              edgeSymbol: ['circle', 'arrow'],
+              edgeSymbolSize: [4, 10],
+              edgeLabel: {
+                fontSize: 20
+              },
+              force: {
+                repulsion: 1000,
+                edgeLength: 100
+              },
+              data: data,
+              links: links,
+              lineStyle: {
+                opacity: 0.9,
+                width: 1,
+                curveness: 0
+              }
+            }
+          ]
+        }}
+      />
+    );
+  }, [title, data, links]);
   return <React.Fragment>{chart}</React.Fragment>;
 };
