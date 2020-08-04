@@ -86,53 +86,62 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export const DrawerDefault = (props: {
-  container: JSX.Element;
-  content?: { toolbarTitle?: string; items?: { key: string; icon: JSX.Element }[][] };
-  actions?: { menuItemClick?: any };
+  common?: JSX.Element;
+  content?: { toolbarTitle?: string; items?: { key: string; icon: JSX.Element; component: JSX.Element }[][] };
+  selectedItemKey?: string;
+  actions?: { menuItemClick?: (event: any, key: string) => void };
 }) => {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
+  const common = props.common ?? null;
   const content = props.content ?? { toolbarTitle: '', items: [] };
   const toolbarTitle = content.toolbarTitle ?? '';
   const items = content.items && content.items.length ? content.items : [];
   const actions = props.actions ?? { menuItemClick: () => {} };
   const menuItemClick = actions.menuItemClick ?? function () {};
 
-  const [selectedItem, setSelectedItem] = React.useState<string>(items.length ? (items[0].length ? items[0][0].key : '') : '');
+  const selectedItemKey = props.selectedItemKey ?? '';
+  const selectedItems = selectedItemKey ? items.flat().filter((item) => item.key === selectedItemKey) : [];
+  const selectedItemComponent = selectedItems.length ? selectedItems[0].component : null;
+  const [selectedItem, setSelectedItem] = React.useState<string>(selectedItemKey);
+  const [component, setComponent] = React.useState<JSX.Element | null>(selectedItemComponent);
 
-  const list = useMemo(
-    () =>
-      items.length
-        ? items.map((item: { key: string; icon: JSX.Element }[], itemIndex: number) => {
-            return (
-              <div key={itemIndex}>
-                <List>
-                  {item.map(({ key, icon }, valueIndex: number) => {
-                    return (
-                      <ListItem
-                        selected={key === selectedItem}
-                        onClick={(e) => {
-                          setSelectedItem(key);
-                          menuItemClick(e);
-                        }}
-                        button
-                        key={`${valueIndex}-${itemIndex}`}
-                      >
-                        <ListItemIcon>{icon}</ListItemIcon>
-                        <ListItemText primary={key} />
-                      </ListItem>
-                    );
-                  })}
-                </List>
-                <Divider />
-              </div>
-            );
-          })
-        : null,
-    [items, selectedItem, menuItemClick]
-  );
+  React.useEffect(() => {
+    setComponent(selectedItemComponent);
+  }, [selectedItemComponent]);
+
+  const list = useMemo(() => {
+    return items.length
+      ? items.map((item: { key: string; icon: JSX.Element; component: JSX.Element }[], itemIndex: number) => {
+          return (
+            <div key={itemIndex}>
+              <List>
+                {item.map(({ key, icon, component }, valueIndex: number) => {
+                  return (
+                    <ListItem
+                      selected={key === selectedItem}
+                      onClick={(e) => {
+                        setSelectedItem(key);
+                        menuItemClick(e, key);
+                        setComponent(component);
+                      }}
+                      button
+                      key={`${valueIndex}-${itemIndex}`}
+                    >
+                      <ListItemIcon>{icon}</ListItemIcon>
+                      <ListItemText primary={key} />
+                    </ListItem>
+                  );
+                })}
+              </List>
+              <Divider />
+            </div>
+          );
+        })
+      : null;
+  }, [items, selectedItem, menuItemClick]);
 
   const title = useMemo(
     () => (
@@ -215,13 +224,22 @@ export const DrawerDefault = (props: {
     [open, collapseButton, classes, list]
   );
 
+  const commonComponent = useMemo(() => {
+    return <React.Fragment>{common}</React.Fragment>;
+  }, [common]);
+
+  const drawerComponent = useMemo(() => {
+    return <React.Fragment>{component}</React.Fragment>;
+  }, [component]);
+
   return (
     <div className={classes.root}>
       {appbar}
       {drawer}
       <main className={classes.content}>
         <div className={classes.toolbar} />
-        {props.container}
+        <div>{commonComponent}</div>
+        {drawerComponent}
       </main>
     </div>
   );
