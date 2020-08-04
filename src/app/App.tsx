@@ -11,6 +11,11 @@ import { DrawerDefault } from '../stories/drawer';
 import { Home, ViewColumnSharp } from '@material-ui/icons';
 import { TableDefault } from '../stories/table';
 import { Column } from 'material-table';
+import { Settings as SettingsIcon } from '@material-ui/icons';
+import { Input, Link } from '@material-ui/core';
+import { BreadcrumbsNoRoute } from '../stories/breadcrumbs';
+import { useSelector } from 'react-redux';
+import { BreadcrumbsReducer } from '../store/reducers/BreadcrumbsReducer';
 // import { useSelector, useDispatch } from 'react-redux';
 // import { RootState } from '../store';
 // import { CheckboxDefault } from '../stories/checkbox';
@@ -200,7 +205,7 @@ const App: React.FC = () => {
     </React.Fragment>
   );
 
-  const questionsBank = (
+  const QuestionsBank = (props: {}) => (
     <TableDefault
       columns={columns}
       data={state.data}
@@ -224,10 +229,57 @@ const App: React.FC = () => {
     />
   );
 
-  // Don't staticly enter content={{...}} in Drawer instead use useState for performance issue pre passing props each chile render
-  // also Dont enter container in useState hook instead staticly add it to content like below otherwise handle submit will return { }
-  const [content, setContent] = useState({ toolbarTitle: 'React App', items: [[{ key: 'Home', icon: <Home /> }]] });
-  return <DrawerDefault container={questionsBank} content={{ ...content }} />;
+  const Dashboard = (props: {}) => {
+    const [x, setX] = React.useState();
+    return (
+      <div>
+        <div>Im dashboard</div>
+        <Input onChange={(e: any) => setX(e.target.value)} />
+      </div>
+    );
+  };
+  const Settings = (props: {}) => {
+    return (
+      <div>
+        Im Settings
+        <Link href="#" onClick={console.log}>
+          asdasd
+        </Link>
+      </div>
+    );
+  };
+
+  const [content, setContent] = useState({
+    toolbarTitle: 'React App',
+    items: [
+      [
+        { key: 'Home', icon: <Home />, component: <QuestionsBank /> },
+        { key: 'Settings', icon: <SettingsIcon />, component: <Settings /> }
+      ]
+    ]
+  });
+
+  // const breadcrumbsState = useSelector((state: RootState) => state.breadcrumbs);
+  // const dispatchCurrentLocation = useDispatch();
+  const [breadcrumbsState, dispatchBreadcrumbs] = useReducer(BreadcrumbsReducer, { currLoc: { key: 'Home' }, prevLoc: [] });
+
+  const breadcrumbs = useMemo(() => {
+    return (
+      <BreadcrumbsNoRoute
+        dispatchCurrentLocation={dispatchBreadcrumbs}
+        previousLocations={breadcrumbsState.prevLoc}
+        currentLocation={breadcrumbsState.currLoc}
+      />
+    );
+  }, [dispatchBreadcrumbs, breadcrumbsState]);
+  return (
+    <DrawerDefault
+      common={breadcrumbs}
+      selectedItemKey={breadcrumbsState.currLoc.key}
+      content={{ ...content }}
+      actions={{ menuItemClick: (event, key) => dispatchBreadcrumbs({ key }) }}
+    />
+  );
 };
 
 export default App;
