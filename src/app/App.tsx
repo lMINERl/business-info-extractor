@@ -16,6 +16,7 @@ import { Input, Link } from '@material-ui/core';
 import { BreadcrumbsNoRoute } from '../stories/breadcrumbs';
 import { useSelector } from 'react-redux';
 import { BreadcrumbsReducer } from '../store/reducers/BreadcrumbsReducer';
+import { RouteDefault } from '../stories/route';
 // import { useSelector, useDispatch } from 'react-redux';
 // import { RootState } from '../store';
 // import { CheckboxDefault } from '../stories/checkbox';
@@ -229,22 +230,44 @@ const App: React.FC = () => {
     />
   );
 
-  const Dashboard = (props: {}) => {
+  const Settings = (props: {}) => {
     const [x, setX] = React.useState();
     return (
       <div>
-        <div>Im dashboard</div>
-        <Input onChange={(e: any) => setX(e.target.value)} />
+        <div>Im Settings</div>
       </div>
     );
   };
-  const Settings = (props: {}) => {
+  const Dashboard = (props: {}) => {
+    const [selected, setSelected] = useState('A');
+
+    const A = (props: {}) => <div>A</div>;
+    const B = (props: {}) => <div>B</div>;
+    const C = (props: {}) => <div>C</div>;
+
+    const tabs = useMemo(
+      () => (
+        <div style={{ display: 'inline-flex' }}>
+          <button onClick={() => setSelected('A')}>Select A</button>
+          <button onClick={() => setSelected('B')}>Select B</button>
+          <button onClick={() => setSelected('C')}>Select C</button>
+        </div>
+      ),
+      []
+    );
+
     return (
       <div>
-        Im Settings
-        <Link href="#" onClick={console.log}>
-          asdasd
-        </Link>
+        <div>Im Dashboard</div>
+        {tabs}
+        <RouteDefault
+          selectedKey={selected}
+          components={[
+            { component: A, key: 'A', props: {} },
+            { component: B, key: 'B' },
+            { component: C, key: 'C', props: {} }
+          ]}
+        />
       </div>
     );
   };
@@ -253,7 +276,7 @@ const App: React.FC = () => {
     toolbarTitle: 'React App',
     items: [
       [
-        { key: 'Home', icon: <Home />, component: <QuestionsBank /> },
+        { key: 'Home', icon: <Home />, component: <Dashboard /> },
         { key: 'Settings', icon: <SettingsIcon />, component: <Settings /> }
       ]
     ]
