@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { Typography, Button, Menu, MenuItem } from '@material-ui/core';
 
-export const MenuDefault = (props: {
+const MenuDefault = (props: {
   shape?: {
     buttonIcon?: JSX.Element;
   };
@@ -97,3 +97,5 @@ export const MenuDefault = (props: {
     </React.Fragment>
   );
 };
+
+export default MenuDefault;

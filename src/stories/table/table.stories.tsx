@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { storiesOf } from '@storybook/react';
-import { TableDefault } from '.';
+import TableDefault from './tableDefault';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core';
 import validator from 'validator';
 

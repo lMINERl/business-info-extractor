@@ -1,4 +1,4 @@
-import React, { useMemo, useReducer, useState } from 'react';
+import React, { useMemo, useReducer, useState, Suspense } from 'react';
 import validator from 'validator';
 // import logo from '../assets/logo.svg';
 import './App.css';
@@ -7,20 +7,31 @@ import './App.css';
 
 // import { InputTelephoneNumber, InputVariant, InputPassword, InputText } from '../stories/inputs';
 // import { CheckboxDefault } from '../stories/checkbox';
-import { DrawerDefault } from '../stories/drawer';
+
 import { Home, ViewColumnSharp } from '@material-ui/icons';
-import { TableDefault } from '../stories/table';
+import TableDefault from '../stories/table/tableDefault';
 import { Column } from 'material-table';
 import { Settings as SettingsIcon } from '@material-ui/icons';
 import { Input, Link } from '@material-ui/core';
-import { BreadcrumbsNoRoute } from '../stories/breadcrumbs';
 import { useSelector } from 'react-redux';
 import { BreadcrumbsReducer } from '../store/reducers/BreadcrumbsReducer';
-import { RouteDefault } from '../stories/route';
+import RouteDefault from '../stories/route/routeDefault';
+
+import BreadcrumbsNoRoute from '../stories/breadcrumbs/breadcrumbsNoRoute';
 // import { useSelector, useDispatch } from 'react-redux';
 // import { RootState } from '../store';
 // import { CheckboxDefault } from '../stories/checkbox';
 // import { getAllData } from '../store/actions/DataActions';
+
+const DrawerDefault = React.lazy(() => {
+  return import('../stories/drawer/drawerDefault');
+});
+const Dashboard = React.lazy(() => {
+  return import('../components/dashboard');
+});
+const Settings = React.lazy(() => {
+  return import('../components/settings');
+});
 
 interface tblData {
   id: number | string;
@@ -230,61 +241,35 @@ const App: React.FC = () => {
     />
   );
 
-  const Settings = (props: {}) => {
-    const [x, setX] = React.useState();
-    return (
-      <div>
-        <div>Im Settings</div>
-      </div>
-    );
-  };
-  const Dashboard = (props: {}) => {
-    const [selected, setSelected] = useState('A');
-
-    const A = (props: {}) => <div>A</div>;
-    const B = (props: {}) => <div>B</div>;
-    const C = (props: {}) => <div>C</div>;
-
-    const tabs = useMemo(
-      () => (
-        <div style={{ display: 'inline-flex' }}>
-          <button onClick={() => setSelected('A')}>Select A</button>
-          <button onClick={() => setSelected('B')}>Select B</button>
-          <button onClick={() => setSelected('C')}>Select C</button>
-        </div>
-      ),
-      []
-    );
-
-    return (
-      <div>
-        <div>Im Dashboard</div>
-        {tabs}
-        <RouteDefault
-          selectedKey={selected}
-          components={[
-            { component: A, key: 'A', props: {} },
-            { component: B, key: 'B' },
-            { component: C, key: 'C', props: {} }
-          ]}
-        />
-      </div>
-    );
-  };
-
   const [content, setContent] = useState({
     toolbarTitle: 'React App',
     items: [
       [
-        { key: 'Home', icon: <Home />, component: <Dashboard /> },
-        { key: 'Settings', icon: <SettingsIcon />, component: <Settings /> }
+        {
+          key: 'Home',
+          icon: <Home />,
+          component: (
+            <Suspense fallback={<div>Loading Dashboard</div>}>
+              <Dashboard />
+            </Suspense>
+          )
+        },
+        {
+          key: 'Settings',
+          icon: <SettingsIcon />,
+          component: (
+            <Suspense fallback={<div>Loading Settings</div>}>
+              <Settings />
+            </Suspense>
+          )
+        }
       ]
     ]
   });
 
   // const breadcrumbsState = useSelector((state: RootState) => state.breadcrumbs);
   // const dispatchCurrentLocation = useDispatch();
-  const [breadcrumbsState, dispatchBreadcrumbs] = useReducer(BreadcrumbsReducer, { currLoc: { key: 'Home' }, prevLoc: [] });
+  const [breadcrumbsState, dispatchBreadcrumbs] = useReducer(BreadcrumbsReducer, { currLoc: { key: 'Settings' }, prevLoc: [] });
 
   const breadcrumbs = useMemo(() => {
     return (
@@ -296,12 +281,14 @@ const App: React.FC = () => {
     );
   }, [dispatchBreadcrumbs, breadcrumbsState]);
   return (
-    <DrawerDefault
-      common={breadcrumbs}
-      selectedItemKey={breadcrumbsState.currLoc.key}
-      content={{ ...content }}
-      actions={{ menuItemClick: (event, key) => dispatchBreadcrumbs({ key }) }}
-    />
+    <Suspense fallback={<div>drawerLoad</div>}>
+      <DrawerDefault
+        common={breadcrumbs}
+        selectedItemKey={breadcrumbsState.currLoc.key}
+        content={{ ...content }}
+        actions={{ menuItemClick: (event, key) => dispatchBreadcrumbs({ key }) }}
+      />
+    </Suspense>
   );
 };
 

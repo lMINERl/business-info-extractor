@@ -2,7 +2,8 @@ import '../_config';
 import React from 'react';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { storiesOf } from '@storybook/react';
-import { CheckboxDefault, CheckboxAddFavorite } from '.';
+import CheckboxDefault from './checkboxDefault';
+import CheckboxAddFavorite from './checkboxAddFavorite';
 
 storiesOf('Checkbox', module)
   .addDecorator((story) => (

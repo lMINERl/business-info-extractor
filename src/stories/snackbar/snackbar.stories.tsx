@@ -1,7 +1,7 @@
 import React, { useReducer } from 'react';
 
 import { storiesOf } from '@storybook/react';
-import { SnackbarDefault } from '.';
+import SnackbarDefault from './snackbarDefault';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core';
 
 // const [openSnack, setOpenSnack] = useState<boolean>(false);

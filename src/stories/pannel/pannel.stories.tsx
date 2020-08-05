@@ -2,7 +2,7 @@ import '../_config';
 import React from 'react';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { storiesOf } from '@storybook/react';
-import { PannelDefault } from '.';
+import PannelDefault from './pannelDefault';
 import { Typography } from '@material-ui/core';
 
 storiesOf('Pannel', module)

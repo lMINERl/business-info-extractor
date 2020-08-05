@@ -1,6 +1,7 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { RadioDefault, RadioGroup } from '.';
+import RadioDefault from './radioDefault';
+import RadioGroup from './radioGroup';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core';
 
 storiesOf('Radio', module)

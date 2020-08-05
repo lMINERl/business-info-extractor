@@ -1,6 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { LabelDefault } from '.';
+import LabelDefault from './labelDefault';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core';
 
 storiesOf('Labels', module)

@@ -1,7 +1,7 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core';
-import { RouteDefault } from '.';
+import RouteDefault from './routeDefault';
 
 storiesOf('Route', module)
   .addDecorator((story) => <ThemeProvider theme={createMuiTheme({ palette: { type: 'light' } })}>{story()}</ThemeProvider>)

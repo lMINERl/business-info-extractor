@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { storiesOf } from '@storybook/react';
-import { DrawerDefault } from '.';
+import DrawerDefault from './drawerDefault';
 import { Inbox, Send, Drafts, AllInbox, Delete, ErrorOutline } from '@material-ui/icons';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 const AnyComponent = (props: { num: number }) => {

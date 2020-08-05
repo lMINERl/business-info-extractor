@@ -2,7 +2,8 @@ import '../_config';
 import React from 'react';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { storiesOf } from '@storybook/react';
-import { CardDefault, CardVariant, CardComplex } from '.';
+import CardDefault, { CardVariant } from './cardDefault';
+import CardComplex from './cardComplex';
 import { Typography } from '@material-ui/core';
 
 storiesOf('Card', module)

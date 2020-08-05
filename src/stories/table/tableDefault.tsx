@@ -37,7 +37,7 @@ const tableIcons = {
   ViewColumn: forwardRef((props: any, ref: any) => (<ViewColumn {...props} ref={ref} />) as any)
 };
 
-export const TableDefault = (props: {
+const TableDefault = (props: {
   columns: Column<any>[];
   data: { [key: string]: any }[];
   content?: {
@@ -75,3 +75,5 @@ export const TableDefault = (props: {
 
   return <React.Fragment>{table}</React.Fragment>;
 };
+
+export default TableDefault;

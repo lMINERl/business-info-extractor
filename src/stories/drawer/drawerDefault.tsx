@@ -85,7 +85,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export const DrawerDefault = (props: {
+const DrawerDefault = (props: {
   common?: JSX.Element;
   content?: { toolbarTitle?: string; items?: { key: string; icon: JSX.Element; component: JSX.Element }[][] };
   selectedItemKey?: string;
@@ -244,3 +244,5 @@ export const DrawerDefault = (props: {
     </div>
   );
 };
+
+export default DrawerDefault;

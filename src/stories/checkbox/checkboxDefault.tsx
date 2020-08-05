@@ -1,7 +1,7 @@
 import React, { useReducer, useEffect, useMemo } from 'react';
 import { IconButton } from '@material-ui/core';
-import { FavoriteBorder, Favorite, CheckBox, CheckBoxOutlineBlank, IndeterminateCheckBox } from '@material-ui/icons';
-import { FormLabelDefault } from '../labels';
+import { CheckBox, CheckBoxOutlineBlank, IndeterminateCheckBox } from '@material-ui/icons';
+import LabelForm from '../labels/labelForm';
 
 interface CheckBoxIconShapes {
   checkedIcon: JSX.Element;
@@ -33,7 +33,7 @@ const defaultCheckboxIconValues: CheckBoxIconValues = {
   intermidateIconValue: undefined
 };
 
-export const CheckboxDefault = (props: {
+const CheckboxDefault = (props: {
   handleChange: (event: any) => void;
   content: CheckBoxContent;
   options?: {
@@ -96,7 +96,7 @@ export const CheckboxDefault = (props: {
   }, []);
 
   const formLabel = useMemo(() => {
-    return props.content.label ? <FormLabelDefault content={{ text: props.content.label, forId: props.content.keyId }} /> : null;
+    return props.content.label ? <LabelForm content={{ text: props.content.label, forId: props.content.keyId }} /> : null;
   }, [props.content.keyId, props.content.label]);
 
   const iconButton = useMemo(() => {
@@ -125,14 +125,4 @@ export const CheckboxDefault = (props: {
   );
 };
 
-export const CheckboxAddFavorite = (props: { handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void; keyId: string }) => {
-  return (
-    <CheckboxDefault
-      handleChange={props.handleChange}
-      content={{ keyId: props.keyId, defaultValue: undefined }}
-      options={{
-        iconShape: { unCheckedIcon: <FavoriteBorder />, checkedIcon: <Favorite /> }
-      }}
-    />
-  );
-};
+export default CheckboxDefault;

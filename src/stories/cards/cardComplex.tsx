@@ -2,7 +2,6 @@ import React, { useMemo } from 'react';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import { CardHeader, Avatar, IconButton, CardMedia } from '@material-ui/core';
@@ -10,10 +9,11 @@ import { red } from '@material-ui/core/colors';
 
 // Icons
 import ShareIcon from '@material-ui/icons/Share';
-import { PannelDefault } from '../pannel';
-import { CheckboxAddFavorite } from '../checkbox';
-import { MenuDefault } from '../menu';
+import PannelDefault from '../pannel/pannelDefault';
+import CheckboxAddFavorite from '../checkbox/checkboxAddFavorite';
+import MenuDefault from '../menu/menuDefault';
 import { MoreVert } from '@material-ui/icons';
+import { CardVariant } from './cardDefault';
 
 const cardComplexStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -37,63 +37,6 @@ const cardComplexStyles = makeStyles((theme: Theme) => ({
     backgroundColor: red[500]
   }
 }));
-const cardDefaultStyles = makeStyles({
-  root: {
-    minWidth: 275
-  },
-  bullet: {
-    display: 'inline-block',
-    margin: '0 2px',
-    transform: 'scale(0.8)'
-  },
-  title: {
-    fontSize: 16
-  },
-  pos: {
-    marginBottom: 12
-  }
-});
-
-export enum CardVariant {
-  outlined,
-  elevation
-}
-
-const getCardType = (variant: CardVariant) => {
-  switch (variant) {
-    case CardVariant.outlined:
-      return 'outlined';
-    default:
-      return 'elevation';
-  }
-};
-
-export const CardDefault = (variant: CardVariant) => {
-  const cardType = getCardType(variant);
-  return (
-    <Card className={cardDefaultStyles().root} variant={cardType}>
-      <CardContent>
-        <Typography className={cardDefaultStyles().title} color="textSecondary" gutterBottom>
-          Text1
-        </Typography>
-        <Typography variant="h5" component="h2">
-          Text2
-        </Typography>
-        <Typography className={cardDefaultStyles().pos} color="textSecondary">
-          Text3
-        </Typography>
-        <Typography variant="body2" component="p">
-          Text$
-          <br />
-          {'"a benevolent smile"'}
-        </Typography>
-      </CardContent>
-      <CardActions>
-        <Button size="small">button1</Button>
-      </CardActions>
-    </Card>
-  );
-};
 
 export interface CardShape {
   AvatarChar?: string;
@@ -116,7 +59,7 @@ export interface CardContent {
   description?: string;
 }
 
-export const CardComplex = (props: { variant: CardVariant; cardShape: CardShape; cardContent: CardContent }) => {
+const CardComplex = (props: { variant: CardVariant; cardShape: CardShape; cardContent: CardContent }) => {
   const classes = cardComplexStyles();
 
   const CardAvatar = useMemo(() => {
@@ -186,3 +129,5 @@ export const CardComplex = (props: { variant: CardVariant; cardShape: CardShape;
     </Card>
   );
 };
+
+export default CardComplex;

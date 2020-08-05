@@ -5,7 +5,7 @@ const Route = (props: { component: (props: any) => JSX.Element; props: { [key: s
   return component;
 };
 
-export const RouteDefault = (props: {
+const RouteDefault = (props: {
   selectedKey: string;
   components: { key: string; component: (props: any) => JSX.Element; props?: { [key: string]: any } }[];
 }) => {
@@ -16,3 +16,5 @@ export const RouteDefault = (props: {
 
   return <div>{component.length ? component[0] : null}</div>;
 };
+
+export default RouteDefault;

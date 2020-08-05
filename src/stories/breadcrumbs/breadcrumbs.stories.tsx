@@ -1,9 +1,10 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { BreadcrumbsDefault, BreadcrumbsNoRoute } from '.';
+import BreadcrumbsNoRoute from './breadcrumbsNoRoute';
+import BreadcrumbsDefault from './breadcrumbsDefault';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import { CheckboxDefault } from '../checkbox';
+import CheckboxDefault from '../checkbox/checkboxDefault';
 
 storiesOf('Breadcrumbs', module)
   .addDecorator((story) => <ThemeProvider theme={createMuiTheme({ palette: { type: 'light' } })}>{story()}</ThemeProvider>)

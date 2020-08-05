@@ -1,6 +1,7 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { ChipDefault, ChipArray } from '.';
+import ChipDefault from './chipDefault';
+import ChipArray from './chipArray';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core';
 
 storiesOf('Chip', module)

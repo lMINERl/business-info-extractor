@@ -78,10 +78,7 @@ const GenerateTreeObjectEntries = (props: { arrOfEntries: any; objKey: string; v
   }
 };
 
-export const TreeDefault = (props: {
-  nestedObject: any;
-  shapes?: { collapseIcon?: JSX.Element; expandIcon?: JSX.Element; closeIcon?: JSX.Element };
-}) => {
+const TreeDefault = (props: { nestedObject: any; shapes?: { collapseIcon?: JSX.Element; expandIcon?: JSX.Element; closeIcon?: JSX.Element } }) => {
   const classes = useStyles();
 
   const shapes = props.shapes ? props.shapes : { collapseIcon: <MinusSquare />, expandIcon: <PlusSquare />, closeIcon: <CloseSquare /> };
@@ -105,3 +102,5 @@ export const TreeDefault = (props: {
     </TreeView>
   );
 };
+
+export default TreeDefault;

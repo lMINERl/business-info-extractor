@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { useMediaQuery, Button, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, useTheme } from '@material-ui/core';
 
-export const DialogDefault = (props: {
+const DialogDefault = (props: {
   open: boolean;
   onCloseHandle: any;
   shape?: { buttonAgree?: { text: string; handle: any }; buttonClose?: { text: string; handle: any } };
@@ -68,3 +68,5 @@ export const DialogDefault = (props: {
     </div>
   );
 };
+
+export default DialogDefault;

@@ -1,5 +1,5 @@
-import React, { useMemo } from 'react';
-import { Chip, makeStyles, Theme, Paper } from '@material-ui/core';
+import React from 'react';
+import { Chip, makeStyles, Theme } from '@material-ui/core';
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   }
 }));
 
-export const ChipDefault = (props: {
+const ChipDefault = (props: {
   text?: string;
   shape?: {
     icon?: JSX.Element;
@@ -48,29 +48,4 @@ export const ChipDefault = (props: {
   );
 };
 
-export const ChipArray = (props: { list: string[]; onDeleteDispatch: any }) => {
-  const classes = useStyles();
-  //   const [chipData, setChipData] = React.useState(props.list);
-
-  const chipList = useMemo(
-    () =>
-      props.list.length ? (
-        props.list.map((value: string, index: number) => {
-          return (
-            <li key={index}>
-              <ChipDefault text={value} options={{ onDelete: () => props.onDeleteDispatch({ valueToDel: value }) }} />
-            </li>
-          );
-        })
-      ) : (
-        <ChipDefault text={'no Tags'} />
-      ),
-    [props]
-  );
-
-  return (
-    <Paper component="ul" className={classes.root}>
-      {chipList}
-    </Paper>
-  );
-};
+export default ChipDefault;

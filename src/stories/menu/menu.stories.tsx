@@ -2,7 +2,7 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core';
 import { MoreVert } from '@material-ui/icons';
-import { MenuDefault } from '.';
+import MenuDefault from './menuDefault';
 
 storiesOf('Menu', module)
   .addDecorator((story) => (

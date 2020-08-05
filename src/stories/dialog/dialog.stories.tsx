@@ -1,7 +1,7 @@
 import React, { useReducer } from 'react';
 import { storiesOf } from '@storybook/react';
 import { ThemeProvider, createMuiTheme, Button } from '@material-ui/core';
-import { DialogDefault } from '.';
+import DialogDefault from './dialogDefault';
 
 // const [openSnack, setOpenSnack] = useState<boolean>(false);
 

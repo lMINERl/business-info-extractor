@@ -10,7 +10,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 //   }
 // });
 
-export const PannelDefault = (component: JSX.Element) => {
+const PannelDefault = (component: JSX.Element) => {
   // const classes = pannelDefaultStyles();
   const [expanded, setExpanded] = React.useState(false);
   const handleExpand = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -29,3 +29,4 @@ export const PannelDefault = (component: JSX.Element) => {
     )
   };
 };
+export default PannelDefault;

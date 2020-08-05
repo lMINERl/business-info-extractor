@@ -2,7 +2,7 @@ import React from 'react';
 import { Snackbar, Slide, IconButton } from '@material-ui/core';
 import { Close } from '@material-ui/icons';
 
-export const SnackbarDefault = (props: { message: string; open: boolean; trigger: (action: 'open' | 'close') => void }) => {
+const SnackbarDefault = (props: { message: string; open: boolean; trigger: (action: 'open' | 'close') => void }) => {
   return (
     <Snackbar
       anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
@@ -20,3 +20,5 @@ export const SnackbarDefault = (props: { message: string; open: boolean; trigger
     />
   );
 };
+
+export default SnackbarDefault;

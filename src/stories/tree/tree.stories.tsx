@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { storiesOf } from '@storybook/react';
-import { TreeDefault } from '.';
+import TreeDefault from './treeDefault';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core';
 import { Add, Remove } from '@material-ui/icons';
 
