@@ -14,7 +14,7 @@ import { Column } from 'material-table';
 import { Settings as SettingsIcon } from '@material-ui/icons';
 import { Input, Link } from '@material-ui/core';
 import { useSelector } from 'react-redux';
-import { BreadcrumbsReducer } from '../store/reducers/BreadcrumbsReducer';
+import BreadcrumbsReducer from '../store/reducers/BreadcrumbsReducer';
 import RouteDefault from '../stories/route/routeDefault';
 
 import BreadcrumbsNoRoute from '../stories/breadcrumbs/breadcrumbsNoRoute';
@@ -269,7 +269,7 @@ const App: React.FC = () => {
 
   // const breadcrumbsState = useSelector((state: RootState) => state.breadcrumbs);
   // const dispatchCurrentLocation = useDispatch();
-  const [breadcrumbsState, dispatchBreadcrumbs] = useReducer(BreadcrumbsReducer, { currLoc: { key: 'Settings' }, prevLoc: [] });
+  const [breadcrumbsState, dispatchBreadcrumbs] = useReducer(BreadcrumbsReducer, { currLoc: { key: 'Home' }, prevLoc: [] });
 
   const breadcrumbs = useMemo(() => {
     return (

@@ -5,7 +5,7 @@ interface ReducerState {
 interface Action {
   key: string;
 }
-export const BreadcrumbsReducer = (state: ReducerState = { prevLoc: [], currLoc: { key: '' } }, action: Action): ReducerState => {
+const BreadcrumbsReducer = (state: ReducerState = { prevLoc: [], currLoc: { key: '' } }, action: Action): ReducerState => {
   let newState = { ...state };
   let newPrevLoc = [...newState.prevLoc];
   let newCurrLoc = { key: action.key };
@@ -25,3 +25,5 @@ export const BreadcrumbsReducer = (state: ReducerState = { prevLoc: [], currLoc:
   }
   return { ...state, prevLoc: newPrevLoc, currLoc: newCurrLoc };
 };
+
+export default BreadcrumbsReducer;
