@@ -209,8 +209,7 @@ img {
   .input--invalid {
     box-shadow: 0 0 1.5px 1px red; }
   .input__text {
-    border: none;
-    box-shadow: none; }
+    width: 100%; }
   .input__container {
     display: inline-flex;
     border-radius: 8px;
@@ -484,8 +483,8 @@ img {
 .listingPage__section1 {
   display: flex; }
 
-ul {
-  margin: 0px; }
+input.MuiOutlinedInput-input {
+  padding: 0.5rem; }
 
 .fa-level-up {
   color: blue; }
