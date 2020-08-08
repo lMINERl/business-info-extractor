@@ -5,6 +5,7 @@ import { storiesOf } from '@storybook/react';
 import CardDefault, { CardVariant } from './cardDefault';
 import CardComplex from './cardComplex';
 import { Typography } from '@material-ui/core';
+import CardSkeleton from './cardSkeleton';
 
 storiesOf('Card', module)
   .addDecorator((story) => (
@@ -46,4 +47,7 @@ storiesOf('Card', module)
           'This impressive paella is a perfect party dish and a fun meal to cook together with your guests. Add 1 cup of frozen peas along with the\r mussels, if you like.'
       }}
     />
-  ));
+  ))
+  .add('CardSkeleton', () => {
+    return <CardSkeleton />;
+  });
