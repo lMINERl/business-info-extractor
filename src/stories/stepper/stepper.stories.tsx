@@ -3,7 +3,6 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { ThemeProvider, createMuiTheme, Grid } from '@material-ui/core';
 import StepperDefault from './stepperDefault';
-import Home from '@material-ui/icons/Home';
 import CardSkeleton from '../cards/cardSkeleton';
 
 // const [openSnack, setOpenSnack] = useState<boolean>(false);

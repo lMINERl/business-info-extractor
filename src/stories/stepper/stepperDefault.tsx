@@ -6,7 +6,6 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import CheckIcon from '@material-ui/icons/CheckCircleRounded';
 import CancelIcon from '@material-ui/icons/CancelRounded';
-import { Grid } from '@material-ui/core';
 
 const StepperDefault = (props: {
   content?: {
@@ -120,7 +119,7 @@ const StepperDefault = (props: {
     ) : (
       <React.Fragment></React.Fragment>
     );
-  }, [skipedSteps, activeStep, completedSteps, shouldSkip]);
+  }, [skipedSteps, activeStep, completedSteps, shouldSkip,steps.length]);
 
   const stepComponent = React.useMemo(() => {
     return stepComponents.length ? stepComponents[activeStep] ?? <div></div> : <div></div>;
@@ -133,7 +132,7 @@ const StepperDefault = (props: {
       }}
     >
       <div style={{ margin: '1rem' }}>{stepComponent}</div>
-      <Stepper activeStep={activeStep} style={{ margin: '0 auto',textAlign:'center' }} className="MuiStepLabel-alternativeLabel" nonLinear>
+      <Stepper activeStep={activeStep} style={{ margin: '0 auto', textAlign: 'center' }} className="MuiStepLabel-alternativeLabel" nonLinear>
         {steps.map((label, index) => (
           <Step key={label.message}>
             {label.icon ? (
@@ -151,7 +150,7 @@ const StepperDefault = (props: {
         ))}
       </Stepper>
       <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', width: '50%', margin: '0 auto', textAlign: 'center' }}>
-        {completedSteps.length == steps.length ? (
+        {completedSteps.length === steps.length ? (
           <React.Fragment>{resetButton}</React.Fragment>
         ) : (
           <React.Fragment>
