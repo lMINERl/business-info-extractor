@@ -1,5 +1,5 @@
 .card-skeleton {
-  max-width: 345px;
+  // max-width: 345px;
   &.card-skeleton__container {
     padding-bottom: 1rem;
   }
@@ -8,7 +8,7 @@
     align-items: center;
     padding: 16px;
     width: 100%;
-    justify-items: center;
+    flex-wrap: nowrap;
   }
   &.card-skeleton__avatar {
     margin-right: 16px;
@@ -20,5 +20,8 @@
   &.card-skeleton__body {
     padding: 16px;
     height: 7.2rem;
+    width: 85%;
+    max-width: none;
+    // width: 100%;
   }
 }
