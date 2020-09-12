@@ -119,7 +119,7 @@ const StepperDefault = (props: {
     ) : (
       <React.Fragment></React.Fragment>
     );
-  }, [skipedSteps, activeStep, completedSteps, shouldSkip,steps.length]);
+  }, [skipedSteps, activeStep, completedSteps, shouldSkip, steps.length]);
 
   const stepComponent = React.useMemo(() => {
     return stepComponents.length ? stepComponents[activeStep] ?? <div></div> : <div></div>;

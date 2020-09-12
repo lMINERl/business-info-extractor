@@ -1,7 +1,11 @@
 import React, { useReducer } from 'react';
 import { storiesOf } from '@storybook/react';
 import { ThemeProvider, createMuiTheme, Button } from '@material-ui/core';
-import DialogDefault from './dialogDefault';
+import BackdropDefault from '../backdrop/backdropDefault';
+
+const DialogDefault = React.lazy(() => {
+  return import('./dialogDefault');
+});
 
 // const [openSnack, setOpenSnack] = useState<boolean>(false);
 
@@ -28,21 +32,23 @@ storiesOf('Dialog', module)
         <Button variant="outlined" color="primary" onClick={() => dispatchDialog('open')}>
           Open responsive dialog
         </Button>
-        <DialogDefault
-          content={{
-            title: `Use Google's location service?`,
-            description: `Let Google help apps determine location. This means sending anonymous location data to Google, even when no apps are running.`
-          }}
-          open={dialog.open}
-          onCloseHandle={() => dispatchDialog('close')}
-          shape={{
-            buttonClose: {
-              text: 'Close',
-              handle: () => dispatchDialog('close')
-            },
-            buttonAgree: { text: 'Ok', handle: () => dispatchDialog('close') }
-          }}
-        />
+        <React.Suspense fallback={<BackdropDefault />}>
+          <DialogDefault
+            content={{
+              title: `Use Google's location service?`,
+              description: `Let Google help apps determine location. This means sending anonymous location data to Google, even when no apps are running.`
+            }}
+            open={dialog.open}
+            onCloseHandle={() => dispatchDialog('close')}
+            shape={{
+              buttonClose: {
+                text: 'Close',
+                handle: () => dispatchDialog('close')
+              },
+              buttonAgree: { text: 'Ok', handle: () => dispatchDialog('close') }
+            }}
+          />
+        </React.Suspense>
       </React.Fragment>
     );
   });

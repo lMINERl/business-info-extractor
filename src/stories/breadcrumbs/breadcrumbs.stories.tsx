@@ -1,10 +1,23 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import BreadcrumbsNoRoute from './breadcrumbsNoRoute';
-import BreadcrumbsDefault from './breadcrumbsDefault';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import CheckboxDefault from '../checkbox/checkboxDefault';
+import BackDropDefault from '../backdrop/backdropDefault';
+// import BreadcrumbsNoRoute from './breadcrumbsNoRoute';
+// import BreadcrumbsDefault from './breadcrumbsDefault';
+// import CheckboxDefault from '../checkbox/checkboxDefault';
+
+const BreadcrumbsNoRoute = React.lazy(() => {
+  return import('./breadcrumbsNoRoute');
+});
+
+const BreadcrumbsDefault = React.lazy(() => {
+  return import('./breadcrumbsDefault');
+});
+
+const CheckboxDefault = React.lazy(() => {
+  return import('../checkbox/checkboxDefault');
+});
 
 storiesOf('Breadcrumbs', module)
   .addDecorator((story) => <ThemeProvider theme={createMuiTheme({ palette: { type: 'light' } })}>{story()}</ThemeProvider>)
@@ -31,16 +44,18 @@ storiesOf('Breadcrumbs', module)
     console.log(breadcrumbsState);
     return (
       <BrowserRouter>
-        <BreadcrumbsDefault
-          dispatchCurrentLocation={dispatchCurrentLocation}
-          currentLocation={{ text: breadcrumbsState.currLoc.text, href: breadcrumbsState.currLoc.href }}
-          previousLocations={breadcrumbsState.prevLoc}
-        />
-        <Switch>
-          <Route path="/ahmed" exact component={() => <CheckboxDefault content={{ keyId: 'a', label: 'Ahmed' }} handleChange={() => {}} />} />
-          <Route path="/contacts" exact component={() => <CheckboxDefault content={{ keyId: 'c', label: 'Contacts' }} handleChange={() => {}} />} />
-          <Route path="/" exact component={() => <CheckboxDefault content={{ keyId: 'h', label: 'Home' }} handleChange={() => {}} />} />
-        </Switch>
+        <React.Suspense fallback={<BackDropDefault />}>
+          <BreadcrumbsDefault
+            dispatchCurrentLocation={dispatchCurrentLocation}
+            currentLocation={{ text: breadcrumbsState.currLoc.text, href: breadcrumbsState.currLoc.href }}
+            previousLocations={breadcrumbsState.prevLoc}
+          />
+          <Switch>
+            <Route path="/ahmed" exact component={() => <CheckboxDefault content={{ keyId: 'a', label: 'Ahmed' }} handleChange={() => {}} />} />
+            <Route path="/contacts" exact component={() => <CheckboxDefault content={{ keyId: 'c', label: 'Contacts' }} handleChange={() => {}} />} />
+            <Route path="/" exact component={() => <CheckboxDefault content={{ keyId: 'h', label: 'Home' }} handleChange={() => {}} />} />
+          </Switch>
+        </React.Suspense>
       </BrowserRouter>
     );
   })
@@ -69,11 +84,13 @@ storiesOf('Breadcrumbs', module)
       }
     );
     return (
-      <BreadcrumbsNoRoute
-        dispatchCurrentLocation={dispatchCurrentLocation}
-        previousLocations={breadcrumbsState.prevLoc}
-        currentLocation={breadcrumbsState.currLoc}
-        options={{ maxItems: 5 }}
-      />
+      <React.Suspense fallback={<BackDropDefault />}>
+        <BreadcrumbsNoRoute
+          dispatchCurrentLocation={dispatchCurrentLocation}
+          previousLocations={breadcrumbsState.prevLoc}
+          currentLocation={breadcrumbsState.currLoc}
+          options={{ maxItems: 5 }}
+        />
+      </React.Suspense>
     );
   });

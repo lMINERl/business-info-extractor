@@ -1,8 +1,14 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import ChipDefault from './chipDefault';
-import ChipArray from './chipArray';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core';
+import BackdropDefault from '../backdrop/backdropDefault';
+
+const ChipDefault = React.lazy(() => {
+  return import('./chipDefault');
+});
+const ChipArray = React.lazy(() => {
+  return import('./chipArray');
+});
 
 storiesOf('Chip', module)
   .addDecorator((story) => (
@@ -12,7 +18,11 @@ storiesOf('Chip', module)
       </div>
     </ThemeProvider>
   ))
-  .add('ChipDefault', () => <ChipDefault text="React Chip" options={{ onDelete: () => {} }} />)
+  .add('ChipDefault', () => (
+    <React.Suspense fallback={<BackdropDefault />}>
+      <ChipDefault text="React Chip" options={{ onDelete: () => {} }} />
+    </React.Suspense>
+  ))
   .add('ChipArray', () => {
     const [chipData, dispatchDelChip] = React.useReducer(
       (state: { list: string[] }, action: { valueToDel: string }) => {
@@ -24,5 +34,9 @@ storiesOf('Chip', module)
       { list: ['Angular', 'jQuery', 'Polymer', 'React', 'vue.js'] }
     );
 
-    return <ChipArray list={chipData.list} onDeleteDispatch={dispatchDelChip} />;
+    return (
+      <React.Suspense fallback={<BackdropDefault />}>
+        <ChipArray list={chipData.list} onDeleteDispatch={dispatchDelChip} />
+      </React.Suspense>
+    );
   });

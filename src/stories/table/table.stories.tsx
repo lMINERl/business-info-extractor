@@ -1,9 +1,14 @@
 import React from 'react';
 
 import { storiesOf } from '@storybook/react';
-import TableDefault from './tableDefault';
+// import TableDefault from './tableDefault';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core';
+import BackDropDefault from '../backdrop/backdropDefault';
 import validator from 'validator';
+
+const TableDefault = React.lazy(() => {
+  return import('./tableDefault');
+});
 
 // const [openSnack, setOpenSnack] = useState<boolean>(false);
 
@@ -53,47 +58,49 @@ storiesOf('Table', module)
     );
     return (
       <React.Fragment>
-        <TableDefault
-          content={{ title: 'Editable Preview' }}
-          columns={[
-            { title: 'id', field: 'id', hidden: true },
-            {
-              title: 'Name',
-              field: 'name',
-              validate: (data: Data) => {
-                const name = data.name ?? '';
-                const valid =
-                  !validator.isEmpty(name, { ignore_whitespace: true }) &&
-                  validator.isLength(name, { max: 15, min: 4 }) &&
-                  !validator.isAlphanumeric(name);
+        <React.Suspense fallback={<BackDropDefault />}>
+          <TableDefault
+            content={{ title: 'Editable Preview' }}
+            columns={[
+              { title: 'id', field: 'id', hidden: true },
+              {
+                title: 'Name',
+                field: 'name',
+                validate: (data: Data) => {
+                  const name = data.name ?? '';
+                  const valid =
+                    !validator.isEmpty(name, { ignore_whitespace: true }) &&
+                    validator.isLength(name, { max: 15, min: 4 }) &&
+                    !validator.isAlphanumeric(name);
 
-                return { isValid: valid, helperText: valid ? '' : 'Name : 4 ~ 15 characters from a~z' };
+                  return { isValid: valid, helperText: valid ? '' : 'Name : 4 ~ 15 characters from a~z' };
+                }
+              },
+              { title: 'Surname', field: 'surname', initialEditValue: 'initial edit value' },
+              { title: 'Birth Year', field: 'birthYear', type: 'numeric' },
+              {
+                title: 'Birth Place',
+                field: 'birthCity',
+                lookup: { 34: 'İstanbul', 63: 'Şanlıurfa' }
               }
-            },
-            { title: 'Surname', field: 'surname', initialEditValue: 'initial edit value' },
-            { title: 'Birth Year', field: 'birthYear', type: 'numeric' },
-            {
-              title: 'Birth Place',
-              field: 'birthCity',
-              lookup: { 34: 'İstanbul', 63: 'Şanlıurfa' }
-            }
-          ]}
-          data={state.data}
-          actions={{
-            onRowAdd: (newData) => {
-              dispatchData({ name: 'add', payload: { newData: newData } });
-              return new Promise<any>((res) => res());
-            },
-            onRowUpdate: (newData, oldData) => {
-              dispatchData({ name: 'update', payload: { oldDataId: oldData.id, newData: newData } });
-              return new Promise<any>((res) => res());
-            },
-            onRowDelete: (oldData) => {
-              dispatchData({ name: 'delete', payload: { oldDataId: oldData.id, newData: oldData } });
-              return new Promise<any>((res) => res());
-            }
-          }}
-        />
+            ]}
+            data={state.data}
+            actions={{
+              onRowAdd: (newData) => {
+                dispatchData({ name: 'add', payload: { newData: newData } });
+                return new Promise<any>((res) => res());
+              },
+              onRowUpdate: (newData, oldData) => {
+                dispatchData({ name: 'update', payload: { oldDataId: oldData.id, newData: newData } });
+                return new Promise<any>((res) => res());
+              },
+              onRowDelete: (oldData) => {
+                dispatchData({ name: 'delete', payload: { oldDataId: oldData.id, newData: oldData } });
+                return new Promise<any>((res) => res());
+              }
+            }}
+          />
+        </React.Suspense>
       </React.Fragment>
     );
   });
