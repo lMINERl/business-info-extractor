@@ -14,6 +14,7 @@ import CheckboxAddFavorite from '../checkbox/checkboxAddFavorite';
 import MenuDefault from '../menu/menuDefault';
 import { MoreVert } from '@material-ui/icons';
 import { CardVariant } from './cardDefault';
+import ReplaceableText from '../replaceable/replaceableText';
 
 const cardComplexStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -40,7 +41,11 @@ const cardComplexStyles = makeStyles((theme: Theme) => ({
 
 export interface CardShape {
   AvatarChar?: string;
-  settings?: { handleSettings: (event?: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void };
+  settings?: {
+    name: string;
+    icon?: JSX.Element;
+    action?: (event?: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  }[];
   image?: {
     path: string;
     title: string;
@@ -59,8 +64,14 @@ export interface CardContent {
   description?: string;
 }
 
-const CardComplex = (props: { variant: CardVariant; cardShape: CardShape; cardContent: CardContent }) => {
+const CardComplex = (props: {
+  editMode?: boolean;
+  variant: CardVariant;
+  cardShape: CardShape;
+  cardContent: CardContent;
+}) => {
   const classes = cardComplexStyles();
+  const editMode = props.editMode ?? false;
 
   const CardAvatar = useMemo(() => {
     return props.cardShape.AvatarChar ? (
@@ -73,8 +84,8 @@ const CardComplex = (props: { variant: CardVariant; cardShape: CardShape; cardCo
   const CardSettings = useMemo(() => {
     return props.cardShape.settings ? (
       <MenuDefault
-        content={{ menuList: ['Delete', 'Add To Cart', 'Edit'] }}
-        actions={{ buttonClick: props.cardShape.settings.handleSettings }}
+        content={{ menuList: props.cardShape.settings }}
+        // actions={{ buttonClick: props.cardShape.settings. }}
         shape={{ buttonIcon: <MoreVert /> }}
       />
     ) : null;
@@ -82,12 +93,21 @@ const CardComplex = (props: { variant: CardVariant; cardShape: CardShape; cardCo
 
   const CardImage = useMemo(() => {
     return props.cardShape.image ? (
-      <CardMedia className={classes.media} image={props.cardShape.image.path} title={props.cardShape.image.title} />
+      <CardMedia
+        className={classes.media}
+        image={props.cardShape.image.path}
+        title={props.cardShape.image.title}
+      />
     ) : null;
   }, [props.cardShape.image, classes.media]);
 
   const CardFavourate = useMemo(() => {
-    return props.cardShape.favourate ? <CheckboxAddFavorite handleChange={props.cardShape.favourate.handleFavourate} keyId="add Fav" /> : null;
+    return props.cardShape.favourate ? (
+      <CheckboxAddFavorite
+        handleChange={props.cardShape.favourate.handleFavourate}
+        keyId="add Fav"
+      />
+    ) : null;
   }, [props.cardShape.favourate]);
 
   const CardShare = useMemo(() => {
@@ -98,14 +118,25 @@ const CardComplex = (props: { variant: CardVariant; cardShape: CardShape; cardCo
     ) : null;
   }, [props.cardShape.share]);
 
-  const CardPannel = props.cardShape.pannel ? PannelDefault(<CardContent>{props.cardShape.pannel.component}</CardContent>) : null;
+  const CardPannel = props.cardShape.pannel
+    ? PannelDefault(<CardContent>{props.cardShape.pannel.component}</CardContent>)
+    : null;
 
   const cardHeader = useMemo(() => {
     return (
       <CardHeader
         avatar={CardAvatar}
         action={CardSettings}
-        title={props.cardContent.header.title}
+        title={
+          <ReplaceableText
+            defaultText={props.cardContent.header.title}
+            shouldReplace={editMode}
+            change={() => {}}
+            mainElement={() => (
+              <Typography component="h6">{props.cardContent.header.title}</Typography>
+            )}
+          />
+        }
         subheader={props.cardContent.header.subTitle || ''}
       />
     );
