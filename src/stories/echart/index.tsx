@@ -2,15 +2,29 @@ import React, { useMemo } from 'react';
 import ReactEcharts from 'echarts-for-react';
 
 export const EchartDefault = (props: {
-  content?: { title?: string; data?: { value: number; name: string }[]; dataLabel?: string; minValue?: number; maxValue?: number };
+  content?: {
+    title?: string;
+    data?: { value: number; name: string }[];
+    dataLabel?: string;
+    minValue?: number;
+    maxValue?: number;
+  };
   options?: any;
 }) => {
-  const content = props.content ?? { title: 'default', data: [], dataLabel: '', minValue: 0, maxValue: 0 };
+  const content = props.content ?? {
+    title: 'default',
+    data: [],
+    dataLabel: '',
+    minValue: 0,
+    maxValue: 0
+  };
   const title = content.title ?? 'default';
   const data = content.data ?? [];
   const dataLabel = content.dataLabel ?? '';
-  const minValue = content.minValue ?? Math.min(...data.map((v: { name: string; value: number }) => v.value));
-  const maxValue = content.maxValue ?? Math.max(...data.map((v: { name: string; value: number }) => v.value));
+  const minValue =
+    content.minValue ?? Math.min(...data.map((v: { name: string; value: number }) => v.value));
+  const maxValue =
+    content.maxValue ?? Math.max(...data.map((v: { name: string; value: number }) => v.value));
 
   const chart = useMemo(() => {
     return (
@@ -81,7 +95,12 @@ export const EchartDefault = (props: {
 };
 
 export const EchartSkills = (props: {
-  content?: { title?: string; legends?: string[]; indicators?: { text: string; max: number }[]; data?: { value: number[]; legendName: string }[] };
+  content?: {
+    title?: string;
+    legends?: string[];
+    indicators?: { text: string; max: number }[];
+    data?: { value: number[]; legendName: string }[];
+  };
 }) => {
   const content = props.content ?? { title: '', legends: [], indicators: [], data: [] };
   const title = content.title ?? '';
@@ -157,7 +176,7 @@ const getGrapthData = (graph: Graph[]) => {
   graph.forEach((v: Graph) => {
     if (!tempPosNodes.includes(v.name)) {
       tempPosLink.push(v.name);
-      tempData.push({ name: v.name, value: v.value });
+      tempData.push({ name: v.name, value: v.value, draggable: true });
     }
     v.children.forEach((link: Link) => {
       if (!tempPosLink.includes(`${v.name}>${link.name}`)) {
@@ -166,7 +185,10 @@ const getGrapthData = (graph: Graph[]) => {
         tempLink.push({
           source: v.name,
           target: link.name,
-          lineStyle: { curveness: tempPosLink.includes(`${link.name}>${v.name}`) ? 0.5 : 0, width: link.weight },
+          lineStyle: {
+            curveness: tempPosLink.includes(`${link.name}>${v.name}`) ? 0.5 : 0,
+            width: link.weight
+          },
           value: link.weight
         });
       }
@@ -232,7 +254,9 @@ export const EchartNetwork = (props: { content?: { title?: string; data?: Graph[
   const content = props.content ?? { title: '', data: [] };
   const title = content.title ?? '';
   const graphData = content.data ?? [];
-  const filtedData = graphData.filter((data) => /node[0-9]*|output[0-9]*|input[0-9]*/gm.test(data.name));
+  const filtedData = graphData.filter((data) =>
+    /node[0-9]*|output[0-9]*|input[0-9]*/gm.test(data.name)
+  );
   let { data, links } = getGrapthData(filtedData);
   const input = data
     .filter((record) => /input[0-9]/gm.test(record.name))
