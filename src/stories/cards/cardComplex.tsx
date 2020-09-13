@@ -140,7 +140,7 @@ const CardComplex = (props: {
         subheader={props.cardContent.header.subTitle || ''}
       />
     );
-  }, [props.cardContent.header, CardAvatar, CardSettings]);
+  }, [props.cardContent.header, CardAvatar, CardSettings, editMode]);
 
   return (
     <Card className={classes.root}>
