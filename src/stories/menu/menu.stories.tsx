@@ -7,7 +7,10 @@ import MenuDefault from './menuDefault';
 storiesOf('Menu', module)
   .addDecorator((story) => (
     <ThemeProvider theme={createMuiTheme({ palette: { type: 'light' } })}>
-      <div key={Date.now()} style={{ display: 'flex', justifyContent: 'center', paddingTop: '100px' }}>
+      <div
+        key={Date.now()}
+        style={{ display: 'flex', justifyContent: 'center', paddingTop: '100px' }}
+      >
         {story()}
       </div>
     </ThemeProvider>
@@ -16,24 +19,23 @@ storiesOf('Menu', module)
     <MenuDefault
       content={{
         menuList: [
-          'None',
-          'Atria',
-          'Callisto',
-          'Dione',
-          'Ganymede',
-          'Hangouts Call',
-          'Luna',
-          'Oberon',
-          'Phobos',
-          'Pyxis',
-          'Sedna',
-          'Titania',
-          'Triton',
-          'Umbriel'
+          { name: 'None' },
+          { name: 'Atria' },
+          { name: 'Callisto' },
+          { name: 'Dione' },
+          { name: 'Ganymede' },
+          { name: 'Hangouts Call' },
+          { name: 'Luna' },
+          { name: 'Oberon' },
+          { name: 'Phobos' },
+          { name: 'Pyxis' },
+          { name: 'Sedna' },
+          { name: 'Titania' },
+          { name: 'Triton' },
+          { name: 'Umbriel' }
         ],
         buttonName: 'Menu'
       }}
-      actions={{ menuItemClick: () => {} }}
       shape={{
         buttonIcon: <MoreVert />
       }}

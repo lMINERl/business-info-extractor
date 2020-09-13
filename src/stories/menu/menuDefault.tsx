@@ -7,12 +7,10 @@ const MenuDefault = (props: {
   };
   content?: {
     buttonName?: string;
-    menuList?: string[];
+    menuList?: { name: string; icon?: JSX.Element; action?: any }[];
   };
   actions?: {
     menuClose?: any;
-    menuItemClick?: any;
-    buttonClick?: any;
   };
 }) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -26,8 +24,11 @@ const MenuDefault = (props: {
   const shape = props.shape ?? { buttonIcon: null };
   const buttonIcon = shape.buttonIcon ?? null;
 
-  const actions = props.actions ?? { menuItemClick: (event: React.MouseEvent<HTMLLIElement, MouseEvent>) => {} };
-  const menuItemClick = actions.menuItemClick ?? function (event: React.MouseEvent<HTMLLIElement, MouseEvent>) {};
+  const actions = props.actions ?? {
+    menuClose: (event: React.MouseEvent<HTMLLIElement, MouseEvent>) => {}
+    // buttonClick: (event: React.MouseEvent<HTMLLIElement, MouseEvent>) => {}
+  };
+
   const menuClose =
     actions.menuClose ??
     function () {
@@ -38,19 +39,21 @@ const MenuDefault = (props: {
     () =>
       menuList.map((menuItem) => (
         <MenuItem
-          key={menuItem}
-          selected={menuItem === selectedItem}
+          key={menuItem.name}
+          selected={menuItem.name === selectedItem}
           onClick={(e) => {
-            menuItemClick(e);
+            let action = menuItem.action ? menuItem.action(e) && false : false;
             setAnchorEl(e.currentTarget);
-            setStelectedItem(menuItem);
-            setOpen(false);
+            setStelectedItem(menuItem.name);
+            setOpen(action);
           }}
+          style={{ justifyContent: 'space-between' }}
         >
-          {menuItem}
+          {menuItem.name}
+          {menuItem.icon ?? null}
         </MenuItem>
       )),
-    [menuList, menuItemClick, selectedItem]
+    [menuList, selectedItem]
   );
 
   const menuButton = useMemo(
