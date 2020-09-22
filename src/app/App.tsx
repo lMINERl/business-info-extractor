@@ -42,7 +42,10 @@ interface tblData {
 const App: React.FC = () => {
   // const [formState, setFromState] = useState<{ [key: string]: any }>({});
   const [formState, formStateDispatch] = useReducer(
-    (state: { [key: string]: any }, payload: { target: { name: string; id: string; value: any } }) => {
+    (
+      state: { [key: string]: any },
+      payload: { target: { name: string; id: string; value: any } }
+    ) => {
       let newState = { ...state };
       // debugger;
       newState = { ...state, [payload.target.id]: payload.target.value };
@@ -77,7 +80,13 @@ const App: React.FC = () => {
     }
   ]);
   const [state, dispatchData] = React.useReducer(
-    (state: { data: tblData[] }, action: { name: 'add' | 'update' | 'delete'; payload: { oldDataId?: string | number; newData: tblData } }) => {
+    (
+      state: { data: tblData[] },
+      action: {
+        name: 'add' | 'update' | 'delete';
+        payload: { oldDataId?: string | number; newData: tblData };
+      }
+    ) => {
       let newState = { ...state };
       let newData = [...newState.data];
       switch (action.name) {
@@ -88,7 +97,10 @@ const App: React.FC = () => {
           {
             const index = newData.findIndex((value) => value.id === action.payload.oldDataId);
             if (index !== -1) {
-              newData = [].concat(newData.slice(0, index) as any, newData.slice(index + 1, newData.length) as any);
+              newData = [].concat(
+                newData.slice(0, index) as any,
+                newData.slice(index + 1, newData.length) as any
+              );
             }
           }
           break;
@@ -269,7 +281,10 @@ const App: React.FC = () => {
 
   // const breadcrumbsState = useSelector((state: RootState) => state.breadcrumbs);
   // const dispatchCurrentLocation = useDispatch();
-  const [breadcrumbsState, dispatchBreadcrumbs] = useReducer(BreadcrumbsReducer, { currLoc: { key: 'Home' }, prevLoc: [] });
+  const [breadcrumbsState, dispatchBreadcrumbs] = useReducer(BreadcrumbsReducer, {
+    currLoc: { key: 'Home' },
+    prevLoc: []
+  });
 
   const breadcrumbs = useMemo(() => {
     return (
