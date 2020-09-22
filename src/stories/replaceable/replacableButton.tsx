@@ -9,7 +9,11 @@ const ReplaceableButton = (props: {
   shouldReplace?: boolean;
 }) => {
   const replacer = React.useMemo(() => {
-    return <Button onClick={props.click}>{props.defaultText}</Button>;
+    return (
+      <Button variant="outlined" color="secondary" onClick={props.click}>
+        {props.defaultText}
+      </Button>
+    );
   }, [props.defaultText, props.click]);
 
   return <React.Fragment>{props.shouldReplace ? replacer : <props.mainElement />}</React.Fragment>;
