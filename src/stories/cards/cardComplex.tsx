@@ -45,7 +45,7 @@ export interface CardContent {
   settings?: {
     name: string;
     icon?: JSX.Element;
-    action?: (event?: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+    action?: any;
   }[];
   AvatarChar?: string;
   title?: string;
@@ -56,14 +56,6 @@ export interface CardContent {
   };
   description?: string;
   pannel?: JSX.Element;
-}
-export interface CardActions {
-  onSaveClick?: any;
-  onFavourateClick?: any;
-  onShareClick?: any;
-  onTitleChange?: any;
-  onSubTitleChange?: any;
-  onDescriptionChange?: any;
 }
 const CardComplex = (props: {
   hasAvatar?: boolean;
@@ -76,7 +68,12 @@ const CardComplex = (props: {
   shouldEdit?: boolean;
   variant: CardVariant;
   cardContent?: CardContent;
-  cardActions?: CardActions;
+  onSaveClick?: any;
+  onFavourateClick?: any;
+  onShareClick?: any;
+  onTitleChange?: any;
+  onSubTitleChange?: any;
+  onDescriptionChange?: any;
 }) => {
   const classes = cardComplexStyles();
   const [editMode, setEditMode] = React.useState<any>(false);
@@ -104,8 +101,6 @@ const CardComplex = (props: {
     setEditMode(props.shouldEdit ?? false);
   }, [props.shouldEdit]);
 
-  const cardActions = props.cardActions ?? {};
-
   const CardAvatar = useMemo(() => {
     console.log('avatarChanged');
     return props.hasAvatar ? (
@@ -120,7 +115,7 @@ const CardComplex = (props: {
       <ReplaceableButton
         shouldReplace={editMode}
         defaultText={'Save'}
-        click={cardActions.onSaveClick}
+        click={props.onSaveClick}
         mainElement={() => (
           <MenuDefault
             content={{ menuList: cardContent.settings }}
@@ -130,7 +125,7 @@ const CardComplex = (props: {
         )}
       />
     ) : null;
-  }, [props.hasSettings, cardContent.settings, editMode, cardActions.onSaveClick]);
+  }, [props.hasSettings, cardContent.settings, editMode, props.onSaveClick]);
 
   const CardImage = useMemo(() => {
     return props.hasImage ? (
@@ -144,17 +139,17 @@ const CardComplex = (props: {
 
   const CardFavourate = useMemo(() => {
     return props.hasFavourate ? (
-      <CheckboxAddFavorite handleChange={cardActions.onFavourateClick} keyId="add Fav" />
+      <CheckboxAddFavorite handleChange={props.onFavourateClick} keyId="add Fav" />
     ) : null;
-  }, [props.hasFavourate, cardActions.onFavourateClick]);
+  }, [props.hasFavourate, props.onFavourateClick]);
 
   const CardShare = useMemo(() => {
     return props.hasShare ? (
-      <IconButton aria-label="share" onClick={cardActions.onShareClick}>
+      <IconButton aria-label="share" onClick={props.onShareClick}>
         <ShareIcon />
       </IconButton>
     ) : null;
-  }, [props.hasShare, cardActions.onShareClick]);
+  }, [props.hasShare, props.onShareClick]);
 
   const CardPannel = props.hasPannel
     ? PannelDefault(<CardContent>{cardContent.pannel}</CardContent>)
@@ -165,18 +160,18 @@ const CardComplex = (props: {
       <ReplaceableText
         defaultText={cardContent.title}
         shouldReplace={editMode}
-        change={cardActions.onTitleChange}
+        change={props.onTitleChange}
         mainElement={() => <Typography component="h6">{cardContent.title}</Typography>}
       />
     );
-  }, [editMode, cardContent.title, cardActions.onTitleChange]);
+  }, [editMode, cardContent.title, props.onTitleChange]);
 
   const SubTitle = React.useMemo(() => {
     return (
       <ReplaceableText
         defaultText={cardContent.subTitle}
         shouldReplace={editMode}
-        change={cardActions.onSubTitleChange}
+        change={props.onSubTitleChange}
         mainElement={() => (
           <Typography component="a" color="textSecondary">
             {cardContent.subTitle || ''}
@@ -184,7 +179,7 @@ const CardComplex = (props: {
         )}
       />
     );
-  }, [editMode, cardContent.subTitle, cardActions.onSubTitleChange]);
+  }, [editMode, cardContent.subTitle, props.onSubTitleChange]);
 
   const cardHeader = useMemo(() => {
     return (
@@ -195,7 +190,7 @@ const CardComplex = (props: {
   const descriptionCom = React.useMemo(() => {
     return props.hasDescription ? (
       <ReplaceableTextArea
-        change={cardActions.onDescriptionChange}
+        change={props.onDescriptionChange}
         defaultText={cardContent.description}
         shouldReplace={editMode}
         shape={{ rows: 5, cols: 30 }}
@@ -206,7 +201,7 @@ const CardComplex = (props: {
         )}
       />
     ) : null;
-  }, [props.hasDescription, cardContent.description, editMode, cardActions.onDescriptionChange]);
+  }, [props.hasDescription, cardContent.description, editMode, props.onDescriptionChange]);
 
   return (
     <Card className={classes.root}>
