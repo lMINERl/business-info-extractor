@@ -12,7 +12,7 @@ const ReplaceableTextArea = (props: {
     return (
       <textarea
         onChange={props.change}
-        value={props.defaultText}
+        defaultValue={props.defaultText}
         name="cardtext"
         cols={props.shape.cols}
         rows={props.shape.rows}

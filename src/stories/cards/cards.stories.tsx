@@ -32,10 +32,10 @@ storiesOf('Card', module)
   .add('CardComplex', () => {
     const [cardState, dispacth] = React.useReducer(
       (
-        nState: CardContent,
+        state: CardContent,
         action: { name: 'setTitle' | 'setSubTitle' | 'setDescription'; payload: any }
       ) => {
-        // const nState = { ...state };
+        const nState = { ...state };
         switch (action.name) {
           case 'setTitle':
             nState.title = action.payload;
@@ -47,9 +47,9 @@ storiesOf('Card', module)
             nState.description = action.payload;
             break;
         }
-        return { ...nState };
+        return Object.freeze({ ...state, ...nState });
       },
-      {
+      Object.freeze({
         image: { path: '', title: '' },
         settings: [
           {
@@ -79,7 +79,7 @@ storiesOf('Card', module)
         AvatarChar: 'R',
         description:
           'This impressive paella is a perfect party dish and a fun meal to cook together with your guests. Add 1 cup of frozen peas along with the\r mussels, if you like.'
-      }
+      })
     );
     const [onEdit, setOnEdit] = React.useState<boolean>(false);
     return (
