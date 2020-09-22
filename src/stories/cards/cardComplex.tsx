@@ -15,6 +15,8 @@ import MenuDefault from '../menu/menuDefault';
 import { MoreVert } from '@material-ui/icons';
 import { CardVariant } from './cardDefault';
 import ReplaceableText from '../replaceable/replaceableText';
+import ReplaceableTextArea from '../replaceable/replacableTextArea';
+import ReplaceableButton from '../replaceable/replacableButton';
 
 const cardComplexStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -39,118 +41,178 @@ const cardComplexStyles = makeStyles((theme: Theme) => ({
   }
 }));
 
-export interface CardShape {
-  AvatarChar?: string;
+export interface CardContent {
   settings?: {
     name: string;
     icon?: JSX.Element;
     action?: (event?: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   }[];
+  AvatarChar?: string;
+  title?: string;
+  subTitle?: string;
   image?: {
     path: string;
     title: string;
   };
-  pannel?: { component: JSX.Element };
-  share?: { handleShare: (event?: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void };
-  favourate?: {
-    handleFavourate: (event: { target: { name: string; value: any } }) => void;
-  };
-}
-export interface CardContent {
-  header: {
-    title: string;
-    subTitle?: string;
-  };
   description?: string;
+  pannel?: JSX.Element;
 }
-
+export interface CardActions {
+  onSaveClick?: any;
+  onFavourateClick?: any;
+  onShareClick?: any;
+  onTitleChange?: any;
+  onSubTitleChange?: any;
+  onDescriptionChange?: any;
+}
 const CardComplex = (props: {
-  editMode?: boolean;
+  hasAvatar?: boolean;
+  hasSettings?: boolean;
+  hasShare?: boolean;
+  hasFavourate?: boolean;
+  hasDescription?: boolean;
+  hasPannel?: boolean;
+  hasImage?: boolean;
+  shouldEdit?: boolean;
   variant: CardVariant;
-  cardShape: CardShape;
-  cardContent: CardContent;
+  cardContent?: CardContent;
+  cardActions?: CardActions;
 }) => {
   const classes = cardComplexStyles();
-  const editMode = props.editMode ?? false;
+  const [editMode, setEditMode] = React.useState<any>(false);
+
+  const [cardContent, setCardContent] = React.useState<any>({
+    settings: [],
+    AvatarChar: '',
+    title: '',
+    subTitle: '',
+    image: {
+      path: '',
+      title: ''
+    },
+    description: '',
+    pannel: <></>
+  });
+
+  React.useEffect(() => {
+    setCardContent((old: any) => {
+      return { ...old, ...props.cardContent };
+    });
+  }, [props.cardContent]);
+
+  React.useEffect(() => {
+    setEditMode(props.shouldEdit ?? false);
+  }, [props.shouldEdit]);
+
+  const cardActions = props.cardActions ?? {};
 
   const CardAvatar = useMemo(() => {
-    return props.cardShape.AvatarChar ? (
+    console.log('avatarChanged');
+    return props.hasAvatar ? (
       <Avatar aria-label="recipe" className={classes.avatar}>
-        {props.cardShape.AvatarChar}
+        {cardContent.AvatarChar}
       </Avatar>
     ) : null;
-  }, [props.cardShape.AvatarChar, classes.avatar]);
+  }, [props.hasAvatar, classes.avatar, cardContent.AvatarChar]);
 
   const CardSettings = useMemo(() => {
-    return props.cardShape.settings ? (
-      <MenuDefault
-        content={{ menuList: props.cardShape.settings }}
-        // actions={{ buttonClick: props.cardShape.settings. }}
-        shape={{ buttonIcon: <MoreVert /> }}
+    return props.hasSettings && cardContent.settings.length ? (
+      <ReplaceableButton
+        shouldReplace={editMode}
+        defaultText={'Save'}
+        click={cardActions.onSaveClick}
+        mainElement={() => (
+          <MenuDefault
+            content={{ menuList: cardContent.settings }}
+            // actions={{ buttonClick: props.cardShape.settings. }}
+            shape={{ buttonIcon: <MoreVert /> }}
+          />
+        )}
       />
     ) : null;
-  }, [props.cardShape.settings]);
+  }, [props.hasSettings, cardContent.settings, editMode, cardActions.onSaveClick]);
 
   const CardImage = useMemo(() => {
-    return props.cardShape.image ? (
+    return props.hasImage ? (
       <CardMedia
         className={classes.media}
-        image={props.cardShape.image.path}
-        title={props.cardShape.image.title}
+        image={cardContent.image.path}
+        title={cardContent.image.title}
       />
     ) : null;
-  }, [props.cardShape.image, classes.media]);
+  }, [props.hasImage, cardContent.image, classes.media]);
 
   const CardFavourate = useMemo(() => {
-    return props.cardShape.favourate ? (
-      <CheckboxAddFavorite
-        handleChange={props.cardShape.favourate.handleFavourate}
-        keyId="add Fav"
-      />
+    return props.hasFavourate ? (
+      <CheckboxAddFavorite handleChange={cardActions.onFavourateClick} keyId="add Fav" />
     ) : null;
-  }, [props.cardShape.favourate]);
+  }, [props.hasFavourate, cardActions.onFavourateClick]);
 
   const CardShare = useMemo(() => {
-    return props.cardShape.share ? (
-      <IconButton aria-label="share" onClick={props.cardShape.share.handleShare}>
+    return props.hasShare ? (
+      <IconButton aria-label="share" onClick={cardActions.onShareClick}>
         <ShareIcon />
       </IconButton>
     ) : null;
-  }, [props.cardShape.share]);
+  }, [props.hasShare, cardActions.onShareClick]);
 
-  const CardPannel = props.cardShape.pannel
-    ? PannelDefault(<CardContent>{props.cardShape.pannel.component}</CardContent>)
+  const CardPannel = props.hasPannel
+    ? PannelDefault(<CardContent>{cardContent.pannel}</CardContent>)
     : null;
+
+  const Title = React.useMemo(() => {
+    return (
+      <ReplaceableText
+        defaultText={cardContent.title}
+        shouldReplace={editMode}
+        change={cardActions.onTitleChange}
+        mainElement={() => <Typography component="h6">{cardContent.title}</Typography>}
+      />
+    );
+  }, [editMode, cardContent.title, cardActions.onTitleChange]);
+
+  const SubTitle = React.useMemo(() => {
+    return (
+      <ReplaceableText
+        defaultText={cardContent.subTitle}
+        shouldReplace={editMode}
+        change={cardActions.onSubTitleChange}
+        mainElement={() => (
+          <Typography component="a" color="textSecondary">
+            {cardContent.subTitle || ''}
+          </Typography>
+        )}
+      />
+    );
+  }, [editMode, cardContent.subTitle, cardActions.onSubTitleChange]);
 
   const cardHeader = useMemo(() => {
     return (
-      <CardHeader
-        avatar={CardAvatar}
-        action={CardSettings}
-        title={
-          <ReplaceableText
-            defaultText={props.cardContent.header.title}
-            shouldReplace={editMode}
-            change={() => {}}
-            mainElement={() => (
-              <Typography component="h6">{props.cardContent.header.title}</Typography>
-            )}
-          />
-        }
-        subheader={props.cardContent.header.subTitle || ''}
-      />
+      <CardHeader avatar={CardAvatar} action={CardSettings} title={Title} subheader={SubTitle} />
     );
-  }, [props.cardContent.header, CardAvatar, CardSettings, editMode]);
+  }, [SubTitle, Title, CardAvatar, CardSettings]);
+
+  const descriptionCom = React.useMemo(() => {
+    return props.hasDescription ? (
+      <ReplaceableTextArea
+        change={cardActions.onDescriptionChange}
+        defaultText={cardContent.description}
+        shouldReplace={editMode}
+        shape={{ rows: 5, cols: 30 }}
+        mainElement={() => (
+          <Typography variant="body2" color="textSecondary" component="p">
+            {cardContent.description}
+          </Typography>
+        )}
+      />
+    ) : null;
+  }, [props.hasDescription, cardContent.description, editMode, cardActions.onDescriptionChange]);
 
   return (
     <Card className={classes.root}>
       {cardHeader}
       {CardImage}
-      <CardContent>
-        <Typography variant="body2" color="textSecondary" component="p">
-          {props.cardContent.description}
-        </Typography>
-      </CardContent>
+      <CardContent>{descriptionCom}</CardContent>
       <CardActions>
         {CardFavourate}
         {CardShare}
