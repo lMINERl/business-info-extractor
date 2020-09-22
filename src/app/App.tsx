@@ -9,8 +9,7 @@ import './App.css';
 // import { CheckboxDefault } from '../stories/checkbox';
 
 import { Home, ViewColumnSharp } from '@material-ui/icons';
-import TableDefault from '../stories/table/tableDefault';
-import { Column } from 'material-table';
+
 import { Settings as SettingsIcon } from '@material-ui/icons';
 import { Input, Link } from '@material-ui/core';
 import { useSelector } from 'react-redux';
@@ -54,31 +53,6 @@ const App: React.FC = () => {
     {}
   );
 
-  const [columns, setColumns] = useState<Column<any>[]>([
-    {
-      title: 'Question',
-      field: 'question',
-      type: 'string',
-      validate: (data: tblData) => {
-        const valid = !validator.isEmpty(data.question ?? '', { ignore_whitespace: true });
-        return { isValid: valid, helperText: valid ? '' : 'Invalid Question' };
-      }
-    },
-    {
-      title: 'Answer',
-      field: 'answer',
-      type: 'string',
-      validate: (data: tblData) => {
-        const valid = !validator.isEmpty(data.answer ?? '', { ignore_whitespace: true });
-        return { isValid: valid, helperText: valid ? '' : 'Invalid Answer' };
-      }
-    },
-    {
-      title: 'id',
-      field: 'id',
-      hidden: true
-    }
-  ]);
   const [state, dispatchData] = React.useReducer(
     (
       state: { data: tblData[] },
@@ -227,30 +201,6 @@ const App: React.FC = () => {
     </div>
   ); */}
     </React.Fragment>
-  );
-
-  const QuestionsBank = (props: {}) => (
-    <TableDefault
-      columns={columns}
-      data={state.data}
-      content={{ title: 'Questions Bank' }}
-      actions={{
-        onRowAdd: (newData) => {
-          if (Object.keys(newData).length < columns.length - 1) {
-            dispatchData({ name: 'add', payload: { newData: newData } });
-          }
-          return new Promise<any>((res) => res());
-        },
-        onRowUpdate: (newData, oldData) => {
-          dispatchData({ name: 'update', payload: { oldDataId: oldData.id, newData: newData } });
-          return new Promise<any>((res) => res());
-        },
-        onRowDelete: (oldData) => {
-          dispatchData({ name: 'delete', payload: { oldDataId: oldData.id, newData: oldData } });
-          return new Promise<any>((res) => res());
-        }
-      }}
-    />
   );
 
   const [content, setContent] = useState({
