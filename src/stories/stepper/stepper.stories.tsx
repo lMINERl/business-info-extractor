@@ -12,7 +12,9 @@ const StepperDefault = React.lazy(() => {
 // const [openSnack, setOpenSnack] = useState<boolean>(false);
 
 storiesOf('Stepper', module)
-  .addDecorator((story) => <ThemeProvider theme={createMuiTheme({ palette: { type: 'light' } })}>{story()}</ThemeProvider>)
+  .addDecorator((story) => (
+    <ThemeProvider theme={createMuiTheme({ palette: { type: 'light' } })}>{story()}</ThemeProvider>
+  ))
   .add('StepperDefault', () => {
     return (
       <React.Suspense fallback={<BackdropDefault />}>
@@ -23,7 +25,10 @@ storiesOf('Stepper', module)
           shouldReset
           content={{
             steps: [
-              { message: 'Select master blaster campaign settings', description: 'Select campaign settings...' },
+              {
+                message: 'Select master blaster campaign settings',
+                description: 'Select campaign settings...'
+              },
               { message: 'Create an ad group', description: 'What is an ad group anyways?' },
               { message: 'Create an ad', description: 'This is the bit I really care about!' }
             ],

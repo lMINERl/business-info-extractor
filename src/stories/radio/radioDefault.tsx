@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
-import { Radio, Typography } from '@material-ui/core';
+import Radio from '@material-ui/core/Radio';
+import Typography from '@material-ui/core/Typography';
 import uniqueId from 'lodash/uniqueId';
 
 const RadioDefault = (props: {

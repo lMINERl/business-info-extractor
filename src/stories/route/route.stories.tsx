@@ -4,7 +4,9 @@ import { ThemeProvider, createMuiTheme } from '@material-ui/core';
 import RouteDefault from './routeDefault';
 
 storiesOf('Route', module)
-  .addDecorator((story) => <ThemeProvider theme={createMuiTheme({ palette: { type: 'light' } })}>{story()}</ThemeProvider>)
+  .addDecorator((story) => (
+    <ThemeProvider theme={createMuiTheme({ palette: { type: 'light' } })}>{story()}</ThemeProvider>
+  ))
   .add('RouteDefault', () => {
     const [selected, setSelected] = React.useState('A');
     const A = (props: { a: string }) => <div>this is component{props.a}</div>;

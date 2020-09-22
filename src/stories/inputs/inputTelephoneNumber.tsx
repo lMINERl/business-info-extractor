@@ -14,7 +14,26 @@ export const TelephoneMaskCustom = (props: TextMaskCustomProps) => {
       ref={(ref: any) => {
         inputRef(ref ? ref.inputElement : null);
       }}
-      mask={['(', '+', '2', ')', ' ', '0', /\d/, /\d/, '-', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/, /\d/]}
+      mask={[
+        '(',
+        '+',
+        '2',
+        ')',
+        ' ',
+        '0',
+        /\d/,
+        /\d/,
+        '-',
+        /\d/,
+        /\d/,
+        /\d/,
+        '-',
+        /\d/,
+        /\d/,
+        /\d/,
+        /\d/,
+        /\d/
+      ]}
       // placeholderChar={'\u2000'}
       placeholder={'(+2) 0XX-XXX-XXXXX'}
       showMask
@@ -31,14 +50,21 @@ const InputTelephoneNumber = (props: {
   };
 }): JSX.Element => {
   let InputVariant = getInputType(props.variant);
-  const inputLabel = useMemo(() => <LabelDefault content={{ text: 'Telephone', forId: props.content.keyId }} />, [props.content.keyId]);
+  const inputLabel = useMemo(
+    () => <LabelDefault content={{ text: 'Telephone', forId: props.content.keyId }} />,
+    [props.content.keyId]
+  );
   return (
     <div>
       {inputLabel}
       <InputVariant
         type="text"
         defaultValue={props.content.defaultValue}
-        onChange={(e) => props.changeHandle({ target: { name: props.content.keyId, id: props.content.keyId, value: e.target.value } } as any)}
+        onChange={(e) =>
+          props.changeHandle({
+            target: { name: props.content.keyId, id: props.content.keyId, value: e.target.value }
+          } as any)
+        }
         name={props.content.keyId}
         id={props.content.keyId}
         inputComponent={TelephoneMaskCustom as any}

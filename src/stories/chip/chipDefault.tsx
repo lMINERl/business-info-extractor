@@ -1,5 +1,6 @@
 import React from 'react';
-import { Chip, makeStyles, Theme } from '@material-ui/core';
+import Chip from '@material-ui/core/Chip';
+import { makeStyles, Theme } from '@material-ui/core';
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {

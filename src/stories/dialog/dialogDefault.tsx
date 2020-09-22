@@ -1,10 +1,20 @@
 import React, { useMemo } from 'react';
-import { useMediaQuery, Button, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, useTheme } from '@material-ui/core';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogActions from '@material-ui/core/DialogActions';
+import { useTheme } from '@material-ui/core';
 
 const DialogDefault = (props: {
   open: boolean;
   onCloseHandle: any;
-  shape?: { buttonAgree?: { text: string; handle: any }; buttonClose?: { text: string; handle: any } };
+  shape?: {
+    buttonAgree?: { text: string; handle: any };
+    buttonClose?: { text: string; handle: any };
+  };
   content?: { title?: string; description?: string };
 }) => {
   const theme = useTheme();
@@ -38,7 +48,10 @@ const DialogDefault = (props: {
     [agree]
   );
 
-  const dialogTitle = useMemo(() => <DialogTitle id="responsive-dialog-title">{title}</DialogTitle>, [title]);
+  const dialogTitle = useMemo(
+    () => <DialogTitle id="responsive-dialog-title">{title}</DialogTitle>,
+    [title]
+  );
   const dialogContent = useMemo(
     () => (
       <DialogContent>
@@ -60,7 +73,12 @@ const DialogDefault = (props: {
 
   return (
     <div>
-      <Dialog fullScreen={fullScreen} open={props.open} onClose={() => props.onCloseHandle()} aria-labelledby="responsive-dialog-title">
+      <Dialog
+        fullScreen={fullScreen}
+        open={props.open}
+        onClose={() => props.onCloseHandle()}
+        aria-labelledby="responsive-dialog-title"
+      >
         {dialogTitle}
         {dialogContent}
         {dialogActions}

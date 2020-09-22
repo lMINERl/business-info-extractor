@@ -20,11 +20,16 @@ const CheckboxDefault = React.lazy(() => {
 });
 
 storiesOf('Breadcrumbs', module)
-  .addDecorator((story) => <ThemeProvider theme={createMuiTheme({ palette: { type: 'light' } })}>{story()}</ThemeProvider>)
+  .addDecorator((story) => (
+    <ThemeProvider theme={createMuiTheme({ palette: { type: 'light' } })}>{story()}</ThemeProvider>
+  ))
   .add('BreadcrumbsDefault', () => {
     const [breadcrumbsState, dispatchCurrentLocation] = React.useReducer(
       (
-        state: { prevLoc: { text: string; href: string }[]; currLoc: { text: string; href: string } },
+        state: {
+          prevLoc: { text: string; href: string }[];
+          currLoc: { text: string; href: string };
+        },
         action: { text: string; href: string; index: number }
       ) => {
         let newState = { ...state };
@@ -47,13 +52,37 @@ storiesOf('Breadcrumbs', module)
         <React.Suspense fallback={<BackDropDefault />}>
           <BreadcrumbsDefault
             dispatchCurrentLocation={dispatchCurrentLocation}
-            currentLocation={{ text: breadcrumbsState.currLoc.text, href: breadcrumbsState.currLoc.href }}
+            currentLocation={{
+              text: breadcrumbsState.currLoc.text,
+              href: breadcrumbsState.currLoc.href
+            }}
             previousLocations={breadcrumbsState.prevLoc}
           />
           <Switch>
-            <Route path="/ahmed" exact component={() => <CheckboxDefault content={{ keyId: 'a', label: 'Ahmed' }} handleChange={() => {}} />} />
-            <Route path="/contacts" exact component={() => <CheckboxDefault content={{ keyId: 'c', label: 'Contacts' }} handleChange={() => {}} />} />
-            <Route path="/" exact component={() => <CheckboxDefault content={{ keyId: 'h', label: 'Home' }} handleChange={() => {}} />} />
+            <Route
+              path="/ahmed"
+              exact
+              component={() => (
+                <CheckboxDefault content={{ keyId: 'a', label: 'Ahmed' }} handleChange={() => {}} />
+              )}
+            />
+            <Route
+              path="/contacts"
+              exact
+              component={() => (
+                <CheckboxDefault
+                  content={{ keyId: 'c', label: 'Contacts' }}
+                  handleChange={() => {}}
+                />
+              )}
+            />
+            <Route
+              path="/"
+              exact
+              component={() => (
+                <CheckboxDefault content={{ keyId: 'h', label: 'Home' }} handleChange={() => {}} />
+              )}
+            />
           </Switch>
         </React.Suspense>
       </BrowserRouter>
@@ -61,7 +90,10 @@ storiesOf('Breadcrumbs', module)
   })
   .add('BreadcrumbsNoRoute', () => {
     const [breadcrumbsState, dispatchCurrentLocation] = React.useReducer(
-      (state: { prevLoc: { key: string }[]; currLoc: { key: string } }, action: { key: string }) => {
+      (
+        state: { prevLoc: { key: string }[]; currLoc: { key: string } },
+        action: { key: string }
+      ) => {
         let newState = { ...state };
         let newPrevLoc = [...newState.prevLoc];
         let newCurrLoc = { key: action.key };

@@ -1,5 +1,12 @@
 import React, { useMemo } from 'react';
-import { Input, FilledInput, OutlinedInput, InputAdornment, IconButton, Typography } from '@material-ui/core';
+import {
+  Input,
+  FilledInput,
+  OutlinedInput,
+  InputAdornment,
+  IconButton,
+  Typography
+} from '@material-ui/core';
 import LabelDefault from '../labels/labelDefault';
 import { VisibilityOff } from '@material-ui/icons';
 
@@ -29,10 +36,10 @@ const InputText = (props: {
   };
 }) => {
   let InputVariant = getInputType(props.variant);
-  const inputLabel = useMemo(() => <LabelDefault content={{ text: props.content.labelText, forId: props.content.keyId }} />, [
-    props.content.keyId,
-    props.content.labelText
-  ]);
+  const inputLabel = useMemo(
+    () => <LabelDefault content={{ text: props.content.labelText, forId: props.content.keyId }} />,
+    [props.content.keyId, props.content.labelText]
+  );
   const inputAdorment = useMemo(
     () => (
       <InputAdornment position="end" style={{ width: '0%' }}>
@@ -60,7 +67,11 @@ const InputText = (props: {
         required={props.isRequired}
         type="text"
         defaultValue={props.content.defaultValue}
-        onChange={(e) => props.changeHandle({ target: { name: props.content.keyId, id: props.content.keyId, value: e.target.value } } as any)}
+        onChange={(e) =>
+          props.changeHandle({
+            target: { name: props.content.keyId, id: props.content.keyId, value: e.target.value }
+          } as any)
+        }
         name={props.content.keyId}
         id={props.content.keyId}
         placeholder={props.content.placeholder}

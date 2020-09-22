@@ -4,15 +4,18 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, Theme } from '@material-ui/core/styles';
-import { CardHeader, Avatar, IconButton, CardMedia } from '@material-ui/core';
-import { red } from '@material-ui/core/colors';
+import CardHeader from '@material-ui/core/CardHeader';
+import Avatar from '@material-ui/core/Avatar';
+import IconButton from '@material-ui/core/IconButton';
+import CardMedia from '@material-ui/core/CardMedia';
+import red from '@material-ui/core/colors/red';
 
 // Icons
 import ShareIcon from '@material-ui/icons/Share';
 import PannelDefault from '../pannel/pannelDefault';
 import CheckboxAddFavorite from '../checkbox/checkboxAddFavorite';
 import MenuDefault from '../menu/menuDefault';
-import { MoreVert } from '@material-ui/icons';
+import MoreVert from '@material-ui/icons/MoreVert';
 import { CardVariant } from './cardDefault';
 import ReplaceableText from '../replaceable/replaceableText';
 import ReplaceableTextArea from '../replaceable/replacableTextArea';

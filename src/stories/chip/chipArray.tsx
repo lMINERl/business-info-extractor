@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
-import { makeStyles, Theme, Paper } from '@material-ui/core';
+import { Theme, makeStyles } from '@material-ui/core';
+import Paper from '@material-ui/core/Paper';
 import ChipDefault from './chipDefault';
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -25,7 +26,10 @@ const ChipArray = (props: { list: string[]; onDeleteDispatch: any }) => {
         props.list.map((value: string, index: number) => {
           return (
             <li key={index}>
-              <ChipDefault text={value} options={{ onDelete: () => props.onDeleteDispatch({ valueToDel: value }) }} />
+              <ChipDefault
+                text={value}
+                options={{ onDelete: () => props.onDeleteDispatch({ valueToDel: value }) }}
+              />
             </li>
           );
         })

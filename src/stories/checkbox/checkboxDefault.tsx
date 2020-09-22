@@ -1,6 +1,8 @@
 import React, { useReducer, useEffect, useMemo } from 'react';
 import { IconButton } from '@material-ui/core';
-import { CheckBox, CheckBoxOutlineBlank, IndeterminateCheckBox } from '@material-ui/icons';
+import CheckBox from '@material-ui/icons/CheckBox';
+import CheckBoxOutlineBlank from '@material-ui/icons/CheckBoxOutlineBlank';
+import IndeterminateCheckBox from '@material-ui/icons/IndeterminateCheckBox';
 import LabelForm from '../labels/labelForm';
 
 interface CheckBoxIconShapes {
@@ -43,7 +45,9 @@ const CheckboxDefault = (props: {
 }) => {
   // State
 
-  const options = props.options ? props.options : { iconShape: defaultCheckboxIconShapes, iconValues: defaultCheckboxIconValues };
+  const options = props.options
+    ? props.options
+    : { iconShape: defaultCheckboxIconShapes, iconValues: defaultCheckboxIconValues };
 
   const iconShape = options.iconShape ? options.iconShape : defaultCheckboxIconShapes;
   const iconValue = options.iconValues ? options.iconValues : defaultCheckboxIconValues;
@@ -96,7 +100,9 @@ const CheckboxDefault = (props: {
   }, []);
 
   const formLabel = useMemo(() => {
-    return props.content.label ? <LabelForm content={{ text: props.content.label, forId: props.content.keyId }} /> : null;
+    return props.content.label ? (
+      <LabelForm content={{ text: props.content.label, forId: props.content.keyId }} />
+    ) : null;
   }, [props.content.keyId, props.content.label]);
 
   const iconButton = useMemo(() => {

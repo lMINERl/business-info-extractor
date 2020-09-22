@@ -1,7 +1,9 @@
 import React, { useState, useMemo } from 'react';
 import LabelDefault from '../labels/labelDefault';
 import { Visibility, VisibilityOff } from '@material-ui/icons';
-import { InputAdornment, IconButton, Typography } from '@material-ui/core';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import IconButton from '@material-ui/core/IconButton';
+import Typography from '@material-ui/core/Typography';
 import { getInputType } from './inputText';
 
 const InputPassword = (props: {
@@ -20,7 +22,10 @@ const InputPassword = (props: {
   // const label = useMemo(() => , [keyId]);
 
   let InputVariant = getInputType(props.variant);
-  const inputLabel = useMemo(() => <LabelDefault content={{ text: 'Password', forId: props.content.keyId }} />, [props.content.keyId]);
+  const inputLabel = useMemo(
+    () => <LabelDefault content={{ text: 'Password', forId: props.content.keyId }} />,
+    [props.content.keyId]
+  );
   const inputAdornment = useMemo(
     () => (
       <InputAdornment position="end">
@@ -50,7 +55,11 @@ const InputPassword = (props: {
       {inputLabel}
       <InputVariant
         type={showPassword ? 'text' : 'password'}
-        onChange={(e) => props.changeHandle({ target: { name: props.content.keyId, id: props.content.keyId, value: e.target.value } } as any)}
+        onChange={(e) =>
+          props.changeHandle({
+            target: { name: props.content.keyId, id: props.content.keyId, value: e.target.value }
+          } as any)
+        }
         required={true}
         error={props.isError}
         name={props.content.keyId}

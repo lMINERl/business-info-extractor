@@ -3,7 +3,7 @@ import React from 'react';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { storiesOf } from '@storybook/react';
 import PannelDefault from './pannelDefault';
-import { Typography } from '@material-ui/core';
+import Typography from '@material-ui/core/Typography';
 
 storiesOf('Pannel', module)
   .addDecorator((story) => (

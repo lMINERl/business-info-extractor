@@ -10,13 +10,20 @@ import InputText from './inputText';
 storiesOf('Input', module)
   .addDecorator((story) => (
     <ThemeProvider theme={createMuiTheme({ palette: { type: 'light' } })}>
-      <div key={Date.now()} style={{ display: 'flex', justifyContent: 'center', paddingTop: '100px' }}>
+      <div
+        key={Date.now()}
+        style={{ display: 'flex', justifyContent: 'center', paddingTop: '100px' }}
+      >
         {story()}
       </div>
     </ThemeProvider>
   ))
   .add('InputTelephoneNumber', () => (
-    <InputTelephoneNumber variant="standard" changeHandle={(event: any) => console.log(event.target.value)} content={{ keyId: 'telephoneNumber' }} />
+    <InputTelephoneNumber
+      variant="standard"
+      changeHandle={(event: any) => console.log(event.target.value)}
+      content={{ keyId: 'telephoneNumber' }}
+    />
   ))
   .add('InputPassword', () => {
     return (

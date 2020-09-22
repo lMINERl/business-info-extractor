@@ -7,7 +7,9 @@ import { ThemeProvider, createMuiTheme } from '@material-ui/core';
 // const [openSnack, setOpenSnack] = useState<boolean>(false);
 
 storiesOf('Snackbar', module)
-  .addDecorator((story) => <ThemeProvider theme={createMuiTheme({ palette: { type: 'light' } })}>{story()}</ThemeProvider>)
+  .addDecorator((story) => (
+    <ThemeProvider theme={createMuiTheme({ palette: { type: 'light' } })}>{story()}</ThemeProvider>
+  ))
   .add('SnackbarDefault', () => {
     const [snack, dispatchSnack] = useReducer(
       (state: { open: boolean }, action: 'close' | 'open') => {

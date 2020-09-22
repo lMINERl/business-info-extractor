@@ -5,7 +5,9 @@ import RadioGroup from './radioGroup';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core';
 
 storiesOf('Radio', module)
-  .addDecorator((story) => <ThemeProvider theme={createMuiTheme({ palette: { type: 'light' } })}>{story()}</ThemeProvider>)
+  .addDecorator((story) => (
+    <ThemeProvider theme={createMuiTheme({ palette: { type: 'light' } })}>{story()}</ThemeProvider>
+  ))
   .add('RadioDefault', () => {
     return (
       <React.Fragment>

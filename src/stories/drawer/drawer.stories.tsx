@@ -2,7 +2,12 @@ import React from 'react';
 
 import { storiesOf } from '@storybook/react';
 // import DrawerDefault from './drawerDefault';
-import { Inbox, Send, Drafts, AllInbox, Delete, ErrorOutline } from '@material-ui/icons';
+import Inbox from '@material-ui/icons/Inbox';
+import Send from '@material-ui/icons/Send';
+import Drafts from '@material-ui/icons/Drafts';
+import AllInbox from '@material-ui/icons/AllInbox';
+import Delete from '@material-ui/icons/Delete';
+import ErrorOutline from '@material-ui/icons/ErrorOutline';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import BackdropDefault from '../backdrop/backdropDefault';
 

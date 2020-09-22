@@ -62,7 +62,12 @@ const StepperDefault = (props: {
           }
           if (skipedSteps.includes(activeStep)) {
             const index = skipedSteps.indexOf(activeStep);
-            setSkipedSteps([].concat(skipedSteps.slice(0, index) as any, skipedSteps.slice(index + 1, skipedSteps.length) as any));
+            setSkipedSteps(
+              [].concat(
+                skipedSteps.slice(0, index) as any,
+                skipedSteps.slice(index + 1, skipedSteps.length) as any
+              )
+            );
           }
           setActiveStep((prevActiveStep) => {
             if (completedSteps.includes(prevActiveStep + 1)) {
@@ -70,7 +75,11 @@ const StepperDefault = (props: {
                 return skipedSteps[0];
               }
             }
-            return prevActiveStep + 1 === steps.length ? (skipedSteps.length ? skipedSteps[0] : 0) : prevActiveStep + 1;
+            return prevActiveStep + 1 === steps.length
+              ? skipedSteps.length
+                ? skipedSteps[0]
+                : 0
+              : prevActiveStep + 1;
           });
         }}
       >
@@ -110,7 +119,11 @@ const StepperDefault = (props: {
                 return skipedSteps[0];
               }
             }
-            return prevActiveStep + 1 === steps.length ? (skipedSteps.length ? skipedSteps[0] : 0) : prevActiveStep + 1;
+            return prevActiveStep + 1 === steps.length
+              ? skipedSteps.length
+                ? skipedSteps[0]
+                : 0
+              : prevActiveStep + 1;
           });
         }}
       >
@@ -132,7 +145,12 @@ const StepperDefault = (props: {
       }}
     >
       <div style={{ margin: '1rem' }}>{stepComponent}</div>
-      <Stepper activeStep={activeStep} style={{ margin: '0 auto', textAlign: 'center' }} className="MuiStepLabel-alternativeLabel" nonLinear>
+      <Stepper
+        activeStep={activeStep}
+        style={{ margin: '0 auto', textAlign: 'center' }}
+        className="MuiStepLabel-alternativeLabel"
+        nonLinear
+      >
         {steps.map((label, index) => (
           <Step key={label.message}>
             {label.icon ? (
@@ -149,17 +167,35 @@ const StepperDefault = (props: {
           </Step>
         ))}
       </Stepper>
-      <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', width: '50%', margin: '0 auto', textAlign: 'center' }}>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          flexDirection: 'column',
+          width: '50%',
+          margin: '0 auto',
+          textAlign: 'center'
+        }}
+      >
         {completedSteps.length === steps.length ? (
           <React.Fragment>{resetButton}</React.Fragment>
         ) : (
           <React.Fragment>
-            <div style={{ margin: '0 auto', display: 'inline-flex', justifyContent: 'space-between', width: '9rem' }}>
+            <div
+              style={{
+                margin: '0 auto',
+                display: 'inline-flex',
+                justifyContent: 'space-between',
+                width: '9rem'
+              }}
+            >
               {backButton}
               {nextButton}
               {!completedSteps.includes(activeStep) ? skipButton : null}
             </div>
-            <Typography style={{ margin: '1px 1rem 1px 2px' }}>{steps[activeStep].description ?? ''}</Typography>
+            <Typography style={{ margin: '1px 1rem 1px 2px' }}>
+              {steps[activeStep].description ?? ''}
+            </Typography>
           </React.Fragment>
         )}
       </div>
