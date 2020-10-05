@@ -87,7 +87,10 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const DrawerDefault = (props: {
   common?: JSX.Element;
-  content?: { toolbarTitle?: string; items?: { key: string; icon: JSX.Element; component: JSX.Element }[][] };
+  content?: {
+    toolbarTitle?: string;
+    items?: { key: string; icon: JSX.Element; component: JSX.Element }[][];
+  };
   selectedItemKey?: string;
   actions?: { menuItemClick?: (event: any, key: string) => void };
 }) => {
@@ -103,7 +106,9 @@ const DrawerDefault = (props: {
   const menuItemClick = actions.menuItemClick ?? function () {};
 
   const selectedItemKey = props.selectedItemKey ?? '';
-  const selectedItems = selectedItemKey ? items.flat().filter((item) => item.key === selectedItemKey) : [];
+  const selectedItems = selectedItemKey
+    ? items.flat().filter((item) => item.key === selectedItemKey)
+    : [];
   const selectedItemComponent = selectedItems.length ? selectedItems[0].component : null;
   const [selectedItem, setSelectedItem] = React.useState<string>(selectedItemKey);
   const [component, setComponent] = React.useState<JSX.Element | null>(selectedItemComponent);
@@ -114,32 +119,37 @@ const DrawerDefault = (props: {
 
   const list = useMemo(() => {
     return items.length
-      ? items.map((item: { key: string; icon: JSX.Element; component: JSX.Element }[], itemIndex: number) => {
-          return (
-            <div key={itemIndex}>
-              <List>
-                {item.map(({ key, icon, component }, valueIndex: number) => {
-                  return (
-                    <ListItem
-                      selected={key === selectedItem}
-                      onClick={(e) => {
-                        setSelectedItem(key);
-                        menuItemClick(e, key);
-                        setComponent(component);
-                      }}
-                      button
-                      key={`${valueIndex}-${itemIndex}`}
-                    >
-                      <ListItemIcon>{icon}</ListItemIcon>
-                      <ListItemText primary={key} />
-                    </ListItem>
-                  );
-                })}
-              </List>
-              <Divider />
-            </div>
-          );
-        })
+      ? items.map(
+          (
+            item: { key: string; icon: JSX.Element; component: JSX.Element }[],
+            itemIndex: number
+          ) => {
+            return (
+              <div key={itemIndex}>
+                <List>
+                  {item.map(({ key, icon, component }, valueIndex: number) => {
+                    return (
+                      <ListItem
+                        selected={key === selectedItem}
+                        onClick={(e) => {
+                          setSelectedItem(key);
+                          menuItemClick(e, key);
+                          setComponent(component);
+                        }}
+                        button
+                        key={`${valueIndex}-${itemIndex}`}
+                      >
+                        <ListItemIcon>{icon}</ListItemIcon>
+                        <ListItemText primary={key} />
+                      </ListItem>
+                    );
+                  })}
+                </List>
+                <Divider />
+              </div>
+            );
+          }
+        )
       : null;
   }, [items, selectedItem, menuItemClick]);
 
@@ -195,7 +205,9 @@ const DrawerDefault = (props: {
         <Typography component="h3" style={{ marginLeft: 'auto', marginRight: 'auto' }}>
           Menu
         </Typography>
-        <IconButton onClick={() => setOpen(false)}>{theme.direction === 'rtl' ? <ChevronRight /> : <ChevronLeft />}</IconButton>
+        <IconButton onClick={() => setOpen(false)}>
+          {theme.direction === 'rtl' ? <ChevronRight /> : <ChevronLeft />}
+        </IconButton>
       </React.Fragment>
     ),
     [theme.direction]
