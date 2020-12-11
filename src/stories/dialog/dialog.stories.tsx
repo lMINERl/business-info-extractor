@@ -10,7 +10,9 @@ const DialogDefault = React.lazy(() => {
 // const [openSnack, setOpenSnack] = useState<boolean>(false);
 
 storiesOf('Dialog', module)
-  .addDecorator((story) => <ThemeProvider theme={createMuiTheme({ palette: { type: 'dark' } })}>{story()}</ThemeProvider>)
+  .addDecorator((story) => (
+    <ThemeProvider theme={createMuiTheme({ palette: { type: 'dark' } })}>{story()}</ThemeProvider>
+  ))
   .add('DialogDefault', () => {
     const [dialog, dispatchDialog] = useReducer(
       (state: { open: boolean }, action: 'close' | 'open') => {

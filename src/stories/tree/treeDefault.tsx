@@ -43,7 +43,12 @@ const useStyles = makeStyles(
   })
 );
 
-const GenerateTreeObjectEntries = (props: { arrOfEntries: any; objKey: string; value: any; count: number }): any => {
+const GenerateTreeObjectEntries = (props: {
+  arrOfEntries: any;
+  objKey: string;
+  value: any;
+  count: number;
+}): any => {
   if (props.count === props.arrOfEntries.length) {
     return null;
   }
@@ -63,7 +68,12 @@ const GenerateTreeObjectEntries = (props: { arrOfEntries: any; objKey: string; v
     return (
       <React.Fragment>
         <StyledTreeItem nodeId={props.objKey} label={props.objKey}>
-          <GenerateTreeObjectEntries arrOfEntries={entries} objKey={entries[0][0]} value={entries[0][1]} count={0} />
+          <GenerateTreeObjectEntries
+            arrOfEntries={entries}
+            objKey={entries[0][0]}
+            value={entries[0][1]}
+            count={0}
+          />
         </StyledTreeItem>
         {rslt}
       </React.Fragment>
@@ -78,10 +88,15 @@ const GenerateTreeObjectEntries = (props: { arrOfEntries: any; objKey: string; v
   }
 };
 
-const TreeDefault = (props: { nestedObject: any; shapes?: { collapseIcon?: JSX.Element; expandIcon?: JSX.Element; closeIcon?: JSX.Element } }) => {
+const TreeDefault = (props: {
+  nestedObject: any;
+  shapes?: { collapseIcon?: JSX.Element; expandIcon?: JSX.Element; closeIcon?: JSX.Element };
+}) => {
   const classes = useStyles();
 
-  const shapes = props.shapes ? props.shapes : { collapseIcon: <MinusSquare />, expandIcon: <PlusSquare />, closeIcon: <CloseSquare /> };
+  const shapes = props.shapes
+    ? props.shapes
+    : { collapseIcon: <MinusSquare />, expandIcon: <PlusSquare />, closeIcon: <CloseSquare /> };
 
   const closeIcon = shapes.closeIcon ?? null;
   const expandIcon = shapes.expandIcon ?? <PlusSquare />;
@@ -93,11 +108,23 @@ const TreeDefault = (props: { nestedObject: any; shapes?: { collapseIcon?: JSX.E
 
   const objectEntries = Object.entries(props.nestedObject);
   const tree = useMemo(
-    () => <GenerateTreeObjectEntries arrOfEntries={objectEntries} objKey={objectEntries[0][0]} value={objectEntries[0][1]} count={0} />,
+    () => (
+      <GenerateTreeObjectEntries
+        arrOfEntries={objectEntries}
+        objKey={objectEntries[0][0]}
+        value={objectEntries[0][1]}
+        count={0}
+      />
+    ),
     [objectEntries]
   );
   return (
-    <TreeView className={classes.root} defaultEndIcon={closeSquare} defaultExpandIcon={plusSquare} defaultCollapseIcon={minusSquare}>
+    <TreeView
+      className={classes.root}
+      defaultEndIcon={closeSquare}
+      defaultExpandIcon={plusSquare}
+      defaultCollapseIcon={minusSquare}
+    >
       {tree}
     </TreeView>
   );

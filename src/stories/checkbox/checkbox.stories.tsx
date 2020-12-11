@@ -42,7 +42,9 @@ storiesOf('Checkbox', module)
   .add('CheckBoxAddFavorite', () => (
     <React.Suspense fallback={<div>...</div>}>
       <CheckboxAddFavorite
-        handleChange={(event: React.ChangeEvent<HTMLInputElement>) => console.log({ [event.target.name]: event.target.value })}
+        handleChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+          console.log({ [event.target.name]: event.target.value })
+        }
         keyId="key2"
       />
     </React.Suspense>

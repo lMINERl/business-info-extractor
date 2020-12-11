@@ -24,11 +24,19 @@ const RadioGroup = (props: {
 
   const Radios = React.useMemo(() => {
     return values.map((v: any, index: number) => (
-      <div style={{ display: 'inline-flex' }} key={uniqueId('radioGroup-')} onClick={() => setChecked(isChecked()(lbls[index]) ? '' : lbls[index])}>
+      <div
+        style={{ display: 'inline-flex' }}
+        key={uniqueId('radioGroup-')}
+        onClick={() => setChecked(isChecked()(lbls[index]) ? '' : lbls[index])}
+      >
         <RadioDefault
           actions={{ onClick }}
           shape={{ labelPosition: labelPosition }}
-          content={{ label: lbls[index], value: isChecked()(lbls[index]) ? '' : v, checked: isChecked()(lbls[index]) }}
+          content={{
+            label: lbls[index],
+            value: isChecked()(lbls[index]) ? '' : v,
+            checked: isChecked()(lbls[index])
+          }}
         />
       </div>
     ));

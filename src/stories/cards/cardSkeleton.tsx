@@ -9,7 +9,12 @@ const CardSkeleton = (props: {}) => {
       <Grid container className="card-skeleton card-skeleton__container">
         <Grid container className="card-skeleton card-skeleton__header">
           <Grid item>
-            <Skeleton variant="circle" width={40} height={40} className="card-skeleton card-skeleton__avatar" />
+            <Skeleton
+              variant="circle"
+              width={40}
+              height={40}
+              className="card-skeleton card-skeleton__avatar"
+            />
           </Grid>
           <Grid item style={{ width: '82%' }}>
             <Skeleton variant="text" className="card-skeleton card-skeleton__title" />
