@@ -21,7 +21,13 @@ const Settings = (props: {}) => {
           changeHandle={(e: any) => dispatch(loginComponentState(e))}
           isRequired
           variant="outlined"
-          content={{ keyId: 'email', labelText: 'Email', defaultValue: login.email || '', placeholder: 'me@example.com', errorText: 'invalid email' }}
+          content={{
+            keyId: 'email',
+            labelText: 'Email',
+            defaultValue: login.email || '',
+            placeholder: 'me@example.com',
+            errorText: 'invalid email'
+          }}
           isError={!validator.isEmail(login.email || '')}
         />
       </div>
@@ -35,7 +41,12 @@ const Settings = (props: {}) => {
           changeHandle={(e: any) => dispatch(loginComponentState(e))}
           variant="outlined"
           isError={true}
-          content={{ keyId: 'password', defaultValue: login.password || '', placeholder: 'me@example.com', errotText: 'password error' }}
+          content={{
+            keyId: 'password',
+            defaultValue: login.password || '',
+            placeholder: 'me@example.com',
+            errotText: 'password error'
+          }}
         />
       </div>
     );

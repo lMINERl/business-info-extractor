@@ -5,7 +5,10 @@ interface ReducerState {
 interface Action {
   key: string;
 }
-const BreadcrumbsReducer = (state: ReducerState = { prevLoc: [], currLoc: { key: '' } }, action: Action): ReducerState => {
+const BreadcrumbsReducer = (
+  state: ReducerState = { prevLoc: [], currLoc: { key: '' } },
+  action: Action
+): ReducerState => {
   let newState = { ...state };
   let newPrevLoc = [...newState.prevLoc];
   let newCurrLoc = { key: action.key };

@@ -39,7 +39,10 @@ const initialState: ReducerState = {
   filteredList: []
 };
 
-export const DataReducer: () => ReducerState = (state: ReducerState = initialState, action: Action = {}): ReducerState => {
+export const DataReducer: () => ReducerState = (
+  state: ReducerState = initialState,
+  action: Action = {}
+): ReducerState => {
   let newDataList: DataModel[] = [...state.dataList];
   let newFilteredList: DataModel[] = [...newDataList];
 
@@ -66,7 +69,10 @@ export const DataReducer: () => ReducerState = (state: ReducerState = initialSta
           const index: number = newDataList.findIndex((t) => t._id === _id);
           if (index !== -1) {
             const arr: DataModel[] = [];
-            newDataList = arr.concat(newDataList.slice(0, index), newDataList.slice(index + 1, newDataList.length));
+            newDataList = arr.concat(
+              newDataList.slice(0, index),
+              newDataList.slice(index + 1, newDataList.length)
+            );
             newFilteredList = [...newDataList];
           }
         }
